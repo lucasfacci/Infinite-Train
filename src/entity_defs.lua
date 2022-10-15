@@ -5,6 +5,10 @@ ENTITY_DEFS = {
             ['idle-down'] = {
                 frames = {1},
                 texture = 'character_walk'
+            },
+            ['walk-down'] = {
+                frames = {1},
+                texture = 'character_walk'
             }
         }
     }

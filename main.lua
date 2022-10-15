@@ -1,6 +1,7 @@
 require 'src/Dependencies'
 
 function love.load()
+    love.graphics.setDefaultFilter('nearest', 'nearest')
     love.window.setTitle('Infinite Train')
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {

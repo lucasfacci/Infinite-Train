@@ -49,6 +49,10 @@ function Entity:update(dt)
     end
 end
 
+function Entity:processAI(params, dt)
+    self.stateMachine:processAI(params, dt)
+end
+
 function Entity:render(adjacentOffsetX, adjacentOffsetY)
     self.x, self.y = self.x + (adjacentOffsetX or 0), self.y + (adjacentOffsetY or 0)
     self.stateMachine:render()

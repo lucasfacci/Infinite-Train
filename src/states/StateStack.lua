@@ -12,12 +12,6 @@ function StateStack:processAI(params, dt)
     self.states[#self.states]:processAI(params, dt)
 end
 
-function StateStack:render()
-    for i, state in ipairs(self.states) do
-        state:render()
-    end
-end
-
 function StateStack:clear()
     self.states = {}
 end
@@ -30,4 +24,10 @@ end
 function StateStack:pop()
     self.states[#self.states]:exit()
     table.remove(self.states)
+end
+
+function StateStack:render()
+    for i, state in ipairs(self.states) do
+        state:render()
+    end
 end

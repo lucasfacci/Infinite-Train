@@ -18,6 +18,7 @@ require 'src/states/entity/EntityIdleState'
 require 'src/states/entity/EntityWalkState'
 
 require 'src/states/entity/player/PlayerIdleState'
+require 'src/states/entity/player/PlayerWalkState'
 
 require 'src/states/game/StartState'
 require 'src/states/game/PlayState'
