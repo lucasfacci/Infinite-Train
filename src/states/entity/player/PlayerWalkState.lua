@@ -8,14 +8,14 @@ function PlayerWalkState:init(player)
 end
 
 function PlayerWalkState:update(dt)
-    if love.keyboard.isDown('left') then
+    if love.keyboard.isDown('a') then
         self.entity:changeAnimation('walk-down')
-    elseif love.keyboard.isDown('right') then
+    elseif love.keyboard.isDown('d') then
         self.entity:changeAnimation('walk-down')
-    elseif love.keyboard.isDown('up') then
+    elseif love.keyboard.isDown('w') then
         self.entity:changeAnimation('walk-down')
-    elseif love.keyboard.isDown('down') then
-        self.entity:changeAnimation('walk-down')
+    elseif love.keyboard.isDown('s') then
+        self.entity:changeAnimation('walk-' .. self.entity.direction)
     else
         self.entity:changeState('idle')
     end

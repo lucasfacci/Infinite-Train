@@ -5,8 +5,8 @@ function PlayState:init()
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
 
-        x = VIRTUAL_WIDTH / 2 - 8,
-        y = VIRTUAL_HEIGHT / 2 - 11,
+        x = VIRTUAL_WIDTH / 2 - 16,
+        y = VIRTUAL_HEIGHT / 2 - 16,
 
         width = 32,
         height = 32

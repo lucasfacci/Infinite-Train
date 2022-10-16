@@ -2,7 +2,7 @@ EntityWalkState = Class{__includes = BaseState}
 
 function EntityWalkState:init(entity)
     self.entity = entity
-    self.entity:changeAnimation('walk-down')
+    self.entity:changeAnimation('walk-' .. self.entity.direction)
 
     self.bumped = false
 end
@@ -10,28 +10,28 @@ end
 function EntityWalkState:update(dt)
     self.bumped = false
 
-    if love.keyboard.isDown('left') then
+    if love.keyboard.isDown('a') then
         self.entity.x = self.entity.x - self.entity.walkSpeed * dt
         
         -- if self.entity.x <= MAP_RENDER_OFFSET_X + TILE_SIZE then 
         --     self.entity.x = MAP_RENDER_OFFSET_X + TILE_SIZE
         --     self.bumped = true
         -- end
-    elseif love.keyboard.isDown('right') then
+    elseif love.keyboard.isDown('d') then
         self.entity.x = self.entity.x + self.entity.walkSpeed * dt
 
         -- if self.entity.x + self.entity.width >= VIRTUAL_WIDTH - TILE_SIZE * 2 then
         --     self.entity.x = VIRTUAL_WIDTH - TILE_SIZE * 2 - self.entity.width
         --     self.bumped = true
         -- end
-    elseif love.keyboard.isDown('up') then
+    elseif love.keyboard.isDown('w') then
         self.entity.y = self.entity.y - self.entity.walkSpeed * dt
 
         -- if self.entity.y <= MAP_RENDER_OFFSET_Y + TILE_SIZE - self.entity.height / 2 then 
         --     self.entity.y = MAP_RENDER_OFFSET_Y + TILE_SIZE - self.entity.height / 2
         --     self.bumped = true
         -- end
-    elseif love.keyboard.isDown('down') then
+    elseif love.keyboard.isDown('s') then
         self.entity.y = self.entity.y + self.entity.walkSpeed * dt
 
         -- local bottomEdge = VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) 
