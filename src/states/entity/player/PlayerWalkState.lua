@@ -9,13 +9,17 @@ end
 
 function PlayerWalkState:update(dt)
     if love.keyboard.isDown('a') then
-        self.entity:changeAnimation('walk-down')
+        self.entity.direction = 'left'
+        self.entity:changeAnimation('walk-left')
     elseif love.keyboard.isDown('d') then
-        self.entity:changeAnimation('walk-down')
+        self.entity.direction = 'right'
+        self.entity:changeAnimation('walk-right')
     elseif love.keyboard.isDown('w') then
-        self.entity:changeAnimation('walk-down')
+        self.entity.direction = 'up'
+        self.entity:changeAnimation('walk-up')
     elseif love.keyboard.isDown('s') then
-        self.entity:changeAnimation('walk-' .. self.entity.direction)
+        self.entity.direction = 'down'
+        self.entity:changeAnimation('walk-down')
     else
         self.entity:changeState('idle')
     end

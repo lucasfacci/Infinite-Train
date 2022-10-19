@@ -10,28 +10,28 @@ end
 function EntityWalkState:update(dt)
     self.bumped = false
 
-    if love.keyboard.isDown('a') then
+    if self.entity.direction == 'left' then
         self.entity.x = self.entity.x - self.entity.walkSpeed * dt
         
         -- if self.entity.x <= MAP_RENDER_OFFSET_X + TILE_SIZE then 
         --     self.entity.x = MAP_RENDER_OFFSET_X + TILE_SIZE
         --     self.bumped = true
         -- end
-    elseif love.keyboard.isDown('d') then
+    elseif self.entity.direction == 'right' then
         self.entity.x = self.entity.x + self.entity.walkSpeed * dt
 
         -- if self.entity.x + self.entity.width >= VIRTUAL_WIDTH - TILE_SIZE * 2 then
         --     self.entity.x = VIRTUAL_WIDTH - TILE_SIZE * 2 - self.entity.width
         --     self.bumped = true
         -- end
-    elseif love.keyboard.isDown('w') then
+    elseif self.entity.direction == 'up' then
         self.entity.y = self.entity.y - self.entity.walkSpeed * dt
 
         -- if self.entity.y <= MAP_RENDER_OFFSET_Y + TILE_SIZE - self.entity.height / 2 then 
         --     self.entity.y = MAP_RENDER_OFFSET_Y + TILE_SIZE - self.entity.height / 2
         --     self.bumped = true
         -- end
-    elseif love.keyboard.isDown('s') then
+    elseif self.entity.direction == 'down' then
         self.entity.y = self.entity.y + self.entity.walkSpeed * dt
 
         -- local bottomEdge = VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) 
