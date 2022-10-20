@@ -12,10 +12,14 @@ function PlayState:init()
         height = 32
     }
 
+    self.train = Train(self.player)
+    self.currentWagon = Wagon(self.player)
+
     self.player.stateMachine = StateMachine {
-        ['idle'] = function() return PlayerIdleState(self.player) end,
-        ['walk'] = function() return PlayerWalkState(self.player) end
+        ['walk'] = function() return PlayerWalkState(self.player) end,
+        ['idle'] = function() return PlayerIdleState(self.player) end
     }
+
     self.player:changeState('idle')
 end
 
@@ -24,9 +28,10 @@ function PlayState:update(dt)
         love.event.quit()
     end
 
-    self.player:update(dt)
+    self.train:update(dt)
 end
 
 function PlayState:render()
+    self.train:render()
     self.player:render()
 end
