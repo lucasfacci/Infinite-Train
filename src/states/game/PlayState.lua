@@ -33,5 +33,4 @@ end
 
 function PlayState:render()
     self.train:render()
-    self.player:render()
 end

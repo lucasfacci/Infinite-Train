@@ -87,16 +87,6 @@ function Wagon:update(dt)
 end
 
 function Wagon:render()
-    love.graphics.stencil(function()
-        -- left
-        love.graphics.rectangle('fill', 0, TILE_SIZE, self.renderOffsetX, TILE_SIZE * 5)
-
-        -- right
-        love.graphics.rectangle('fill', VIRTUAL_WIDTH - self.renderOffsetX, TILE_SIZE, self.renderOffsetX, TILE_SIZE * 5)
-    end, 'replace', 1)
-
-    love.graphics.setStencilTest('less', 1)
-
     for y = 1, self.height do
         for x = 1, self.width do
             -- Render the background
@@ -118,9 +108,43 @@ function Wagon:render()
         end
     end
 
+    love.graphics.setColor(0, 0, 0, 100)
+
+    -- left
+    love.graphics.rectangle('fill', 0, TILE_SIZE, self.renderOffsetX, TILE_SIZE * 5)
+
+    -- right
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH - self.renderOffsetX, TILE_SIZE, self.renderOffsetX, TILE_SIZE * 5)
+
+    love.graphics.setColor(255, 255, 255, 255)
+
+    love.graphics.stencil(function()
+        -- bottom
+        love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT - self.renderOffsetY - TILE_SIZE / 2, VIRTUAL_WIDTH, self.renderOffsetY + TILE_SIZE)
+    end, 'replace', 1)
+
+    love.graphics.setStencilTest('less', 1)
+
     if self.player then
         self.player:render()
     end
 
     love.graphics.setStencilTest()
+
+    -- --
+    -- -- DEBUG DRAWING OF STENCIL RECTANGLES
+    -- --
+
+    -- love.graphics.setColor(0, 255, 0, 100)
+    
+    -- -- left
+    -- love.graphics.rectangle('fill', 0, TILE_SIZE, self.renderOffsetX, TILE_SIZE * 5)
+
+    -- -- right
+    -- love.graphics.rectangle('fill', VIRTUAL_WIDTH - self.renderOffsetX, TILE_SIZE, self.renderOffsetX, TILE_SIZE * 5)
+
+    -- -- bottom
+    -- love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT - self.renderOffsetY - TILE_SIZE / 2, VIRTUAL_WIDTH, self.renderOffsetY + TILE_SIZE)
+    
+    -- love.graphics.setColor(255, 255, 255, 255)
 end
