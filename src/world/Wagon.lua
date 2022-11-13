@@ -60,8 +60,12 @@ function Wagon:generateWallsAndFloors()
                 idLayer = DELIMITER_BOTTOM_RIGHT_CORNER
             elseif y == 1 then
                 idLayer = DELIMITER_TOP
+            elseif x == 1 and (y == 5 or y == 6 or y == 7) then
+                idLayer = TILE_EMPTY
             elseif x == 1 then
                 idLayer = DELIMITER_LEFT
+            elseif x == self.width and (y == 5 or y == 6 or y == 7) then
+                idLayer = TILE_EMPTY
             elseif x == self.width then
                 idLayer = DELIMITER_RIGHT
             elseif y == self.height then
@@ -111,12 +115,84 @@ function Wagon:render()
     love.graphics.setColor(0, 0, 0, 100)
 
     -- left
-    love.graphics.rectangle('fill', 0, TILE_SIZE, self.renderOffsetX, TILE_SIZE * 5)
+    love.graphics.rectangle('fill', 0, self.renderOffsetY, self.renderOffsetX, TILE_SIZE * 4)
 
     -- right
-    love.graphics.rectangle('fill', VIRTUAL_WIDTH - self.renderOffsetX, TILE_SIZE, self.renderOffsetX, TILE_SIZE * 5)
+    love.graphics.rectangle('fill', VIRTUAL_WIDTH - self.renderOffsetX, self.renderOffsetY, self.renderOffsetX, TILE_SIZE * 4)
 
     love.graphics.setColor(255, 255, 255, 255)
+
+    -- LEFT DOOR
+    -- door top left corner border
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][9],
+        TILE_SIZE + self.renderOffsetX - TILE_SIZE * 2,
+        5 * TILE_SIZE + self.renderOffsetY - TILE_SIZE - TILE_SIZE / 2)
+    -- door top right corner border
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][12],
+        TILE_SIZE + self.renderOffsetX - TILE_SIZE - TILE_SIZE / 2,
+        4 * TILE_SIZE + self.renderOffsetY - TILE_SIZE)
+    -- door middle borders
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][7],
+        TILE_SIZE + self.renderOffsetX - TILE_SIZE * 2,
+        5 * TILE_SIZE + self.renderOffsetY - TILE_SIZE / 2)
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][7],
+        TILE_SIZE + self.renderOffsetX - TILE_SIZE * 2,
+        6 * TILE_SIZE + self.renderOffsetY - TILE_SIZE / 2)
+    -- door bottom left corner boder
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][11],
+        TILE_SIZE + self.renderOffsetX - TILE_SIZE * 2,
+        6 * TILE_SIZE + self.renderOffsetY + TILE_SIZE / 2)
+    -- door bottom right corner border
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][10],
+        TILE_SIZE + self.renderOffsetX - TILE_SIZE - TILE_SIZE / 2,
+        7 * TILE_SIZE + self.renderOffsetY)
+    -- door wall
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][3],
+        TILE_SIZE + self.renderOffsetX - TILE_SIZE - TILE_SIZE / 2,
+        5 * TILE_SIZE - (TILE_SIZE / 2) + self.renderOffsetY - TILE_SIZE / 2)
+    -- door floors
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][1],
+        TILE_SIZE + self.renderOffsetX - TILE_SIZE - TILE_SIZE / 2,
+        6 * TILE_SIZE - (TILE_SIZE / 2) + self.renderOffsetY - TILE_SIZE / 2)
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][1],
+        TILE_SIZE + self.renderOffsetX - TILE_SIZE - TILE_SIZE / 2,
+        6 * TILE_SIZE - (TILE_SIZE / 2) + self.renderOffsetY + TILE_SIZE / 2)
+
+    -- RIGHT DOOR
+    -- door top left corner border
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][11],
+        MAP_WIDTH * TILE_SIZE + self.renderOffsetX - TILE_SIZE / 2,
+        5 * TILE_SIZE + self.renderOffsetY - TILE_SIZE * 2)
+    -- door top right corner border
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][10],
+        MAP_WIDTH * TILE_SIZE + self.renderOffsetX,
+        5 * TILE_SIZE + self.renderOffsetY - TILE_SIZE * 2 + TILE_SIZE / 2)
+    -- door middle borders
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][8],
+        MAP_WIDTH * TILE_SIZE + self.renderOffsetX,
+        5 * TILE_SIZE + self.renderOffsetY - TILE_SIZE / 2)
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][8],
+        MAP_WIDTH * TILE_SIZE + self.renderOffsetX,
+        6 * TILE_SIZE + self.renderOffsetY - TILE_SIZE / 2)
+    -- door bottom left corder border
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][9],
+        MAP_WIDTH * TILE_SIZE + self.renderOffsetX - TILE_SIZE / 2,
+        7 * TILE_SIZE + self.renderOffsetY - TILE_SIZE / 2 + TILE_SIZE / 2)
+    -- door bottom right corder border
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][12],
+        MAP_WIDTH * TILE_SIZE + self.renderOffsetX,
+        7 * TILE_SIZE + self.renderOffsetY - TILE_SIZE / 2)
+    -- door wall
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][3],
+        MAP_WIDTH * TILE_SIZE + self.renderOffsetX - TILE_SIZE / 2,
+        6 * TILE_SIZE + self.renderOffsetY - TILE_SIZE - TILE_SIZE)
+    -- door floor
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][1],
+        MAP_WIDTH * TILE_SIZE + self.renderOffsetX - TILE_SIZE / 2,
+        7 * TILE_SIZE + self.renderOffsetY - TILE_SIZE * 2)
+    love.graphics.draw(gTextures['tiles'], gFrames['tiles'][1],
+        MAP_WIDTH * TILE_SIZE + self.renderOffsetX - TILE_SIZE / 2,
+        7 * TILE_SIZE + self.renderOffsetY - TILE_SIZE)
 
     love.graphics.stencil(function()
         -- bottom
@@ -136,7 +212,9 @@ function Wagon:render()
     -- --
 
     -- love.graphics.setColor(0, 255, 0, 100)
-    
+
+    -- love.graphics.rectangle('fill', 2 * TILE_SIZE, 6 * TILE_SIZE + self.renderOffsetY, TILE_SIZE, TILE_SIZE)
+
     -- -- left
     -- love.graphics.rectangle('fill', 0, TILE_SIZE, self.renderOffsetX, TILE_SIZE * 5)
 
@@ -145,6 +223,6 @@ function Wagon:render()
 
     -- -- bottom
     -- love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT - self.renderOffsetY - TILE_SIZE / 2, VIRTUAL_WIDTH, self.renderOffsetY + TILE_SIZE)
-    
+
     -- love.graphics.setColor(255, 255, 255, 255)
 end

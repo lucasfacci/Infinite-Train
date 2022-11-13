@@ -34,8 +34,8 @@ function EntityWalkState:update(dt)
     elseif self.entity.direction == 'down' then
         self.entity.y = self.entity.y + self.entity.walkSpeed * dt
 
-        if self.entity.y + self.entity.height >= VIRTUAL_HEIGHT - MAP_RENDER_OFFSET_Y + MAP_RENDER_OFFSET_Y then
-            self.entity.y = VIRTUAL_HEIGHT - MAP_RENDER_OFFSET_Y + MAP_RENDER_OFFSET_Y - self.entity.height
+        if self.entity.y + self.entity.height >= VIRTUAL_HEIGHT - MAP_RENDER_OFFSET_Y + (MAP_RENDER_OFFSET_Y / 4) then
+            self.entity.y = VIRTUAL_HEIGHT - MAP_RENDER_OFFSET_Y + (MAP_RENDER_OFFSET_Y / 4) - self.entity.height
         end
     end
 end
