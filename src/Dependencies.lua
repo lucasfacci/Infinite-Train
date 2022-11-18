@@ -7,6 +7,8 @@ require 'src/Animation'
 require 'src/constants'
 require 'src/Entity'
 require 'src/entity_defs'
+require 'src/GameObject'
+require 'src/game_object_defs'
 require 'src/Player'
 require 'src/StateMachine'
 require 'src/Util'
@@ -29,11 +31,13 @@ require 'src/states/game/PlayState'
 gTextures = {
     ['background'] = love.graphics.newImage('graphics/background.png'),
     ['tiles'] = love.graphics.newImage('graphics/tilesheet.png'),
-    ['character_walk'] = love.graphics.newImage('graphics/character_walk.png')
+    ['character_walk'] = love.graphics.newImage('graphics/character_walk.png'),
+    ['chairs'] = love.graphics.newImage('graphics/chairs.png')
 }
 
 gFrames = {
     ['background'] = GenerateQuads(gTextures['background'], 864, 64),
     ['tiles'] = GenerateQuads(gTextures['tiles'], 16, 16),
-    ['character_walk'] = GenerateQuads(gTextures['character_walk'], 32, 32)
+    ['character_walk'] = GenerateQuads(gTextures['character_walk'], 32, 32),
+    ['chairs'] = GenerateQuads(gTextures['chairs'], 32, 64)
 }

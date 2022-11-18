@@ -8,6 +8,9 @@ function Wagon:init(player)
     self.tilesLayer = {}
     self:generateWallsAndFloors()
 
+    self.objects = {}
+    self:generatePassengersWagonObjects()
+
     self.backgroundScroll = 0
 
     self.player = player
@@ -80,8 +83,18 @@ function Wagon:generateWallsAndFloors()
                 id = idLayer
             })
         end
-
+        
     end
+end
+
+function Wagon:generatePassengersWagonObjects()
+    -- helper = 1
+    -- for x = 1, self.width / 2 - 5 do
+    --     print(x)
+    --     print(self.width)
+    --     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['chair'], helper * TILE_SIZE / 2, 5 * TILE_SIZE / 2))
+    --     helper = helper + 6
+    -- end
 end
 
 function Wagon:update(dt)
@@ -241,6 +254,10 @@ function Wagon:render()
     love.graphics.draw(gTextures['tiles'], gFrames['tiles'][12],
         MAP_WIDTH * TILE_SIZE + self.renderOffsetX,
         17 * TILE_SIZE / 2 + self.renderOffsetY)
+
+    for k, object in pairs(self.objects) do
+        object:render(self.renderOffsetX, self.renderOffsetY)
+    end
 
     love.graphics.stencil(function()
         -- bottom left door

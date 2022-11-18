@@ -14,8 +14,8 @@ function GameObject:init(def, x, y)
     self.state = self.defaultState
     self.states = def.states
 
-    self.x = def.x
-    self.y = def.y
+    self.x = x
+    self.y = y
     self.width = def.width
     self.height = def.height
 
@@ -30,5 +30,8 @@ function GameObject:update(dt, entities, objects)
 end
 
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)
-
+    love.graphics.setColor(1, 1, 1, self.opacity)
+    love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.states[self.state].frame or self.frame],
+        self.x + adjacentOffsetX, self.y + adjacentOffsetY)
+    love.graphics.setColor(1, 1, 1, 1)
 end
