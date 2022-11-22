@@ -88,13 +88,12 @@ function Wagon:generateWallsAndFloors()
 end
 
 function Wagon:generatePassengersWagonObjects()
-    -- helper = 1
-    -- for x = 1, self.width / 2 - 5 do
-    --     print(x)
-    --     print(self.width)
-    --     table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['chair'], helper * TILE_SIZE / 2, 5 * TILE_SIZE / 2))
-    --     helper = helper + 6
-    -- end
+    for y = 1, 41, 7.75 do
+        -- top
+        table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['chair'], y * TILE_SIZE / 2, 6 * TILE_SIZE / 2))
+        -- bottom
+        table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['chair'], y * TILE_SIZE / 2, 18 * TILE_SIZE / 2))
+    end
 end
 
 function Wagon:update(dt)
@@ -255,10 +254,6 @@ function Wagon:render()
         MAP_WIDTH * TILE_SIZE + self.renderOffsetX,
         17 * TILE_SIZE / 2 + self.renderOffsetY)
 
-    for k, object in pairs(self.objects) do
-        object:render(self.renderOffsetX, self.renderOffsetY)
-    end
-
     love.graphics.stencil(function()
         -- bottom left door
         love.graphics.rectangle('fill', TILE_SIZE + self.renderOffsetX - TILE_SIZE - TILE_SIZE / 2, 9 * TILE_SIZE + self.renderOffsetY, TILE_SIZE, TILE_SIZE)
@@ -269,6 +264,10 @@ function Wagon:render()
     end, 'replace', 1)
 
     love.graphics.setStencilTest('less', 1)
+
+    for k, object in pairs(self.objects) do
+        object:render(self.renderOffsetX, self.renderOffsetY)
+    end
 
     if self.player then
         self.player:render()

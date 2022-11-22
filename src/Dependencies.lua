@@ -39,5 +39,5 @@ gFrames = {
     ['background'] = GenerateQuads(gTextures['background'], 864, 64),
     ['tiles'] = GenerateQuads(gTextures['tiles'], 16, 16),
     ['character_walk'] = GenerateQuads(gTextures['character_walk'], 32, 32),
-    ['chairs'] = GenerateQuads(gTextures['chairs'], 32, 64)
+    ['chairs'] = GenerateQuads(gTextures['chairs'], 32, 48)
 }
