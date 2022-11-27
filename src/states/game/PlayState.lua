@@ -13,7 +13,6 @@ function PlayState:init()
     }
 
     self.train = Train(self.player)
-    self.currentWagon = Wagon(self.player)
 
     self.player.stateMachine = StateMachine {
         ['walk'] = function() return PlayerWalkState(self.player) end,

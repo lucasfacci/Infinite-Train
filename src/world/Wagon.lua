@@ -4,22 +4,23 @@ function Wagon:init(player)
     self.width = MAP_WIDTH
     self.height = MAP_HEIGHT
 
-    self.tiles = {}
-    self.tilesLayer = {}
-    self:generateWallsAndFloors()
-
-    self.objects = {}
-    self:generatePassengersWagonObjects()
-
     self.backgroundScroll = 0
 
     self.player = player
 
     self.renderOffsetX = MAP_RENDER_OFFSET_X
     self.renderOffsetY = MAP_RENDER_OFFSET_Y
+
+    self.tiles = {}
+    self.tilesLayer = {}
+    self:generateWagon()
+
+    -- self.objects = {}
+    -- self:generatePassengersWagonObjects()
 end
 
-function Wagon:generateWallsAndFloors()
+function Wagon:generateWagon()
+    lighter = Lighter()
     local tileFloor = TILE_FLOORS[math.random(#TILE_FLOORS)]
     local tileTopWall = TILE_TOP_WALLS[math.random(#TILE_TOP_WALLS)]
 
@@ -31,6 +32,7 @@ function Wagon:generateWallsAndFloors()
             local id = TILE_EMPTY
             local idLayer = TILE_EMPTY
 
+            -- generates walls and glasses
             if y >= 1 and y <= 4 then
                 if (y == 2 or y == 3) then
                     if (x >= 3 and x <= 4) or
@@ -52,7 +54,7 @@ function Wagon:generateWallsAndFloors()
             else
                 id = tileFloor
             end
-
+            -- generates delimiters and sconces
             if y == 1 and x == 1 then
                 idLayer = DELIMITER_TOP_LEFT_CORNER
             elseif y == 1 and x == self.width then
@@ -73,6 +75,12 @@ function Wagon:generateWallsAndFloors()
                 idLayer = DELIMITER_RIGHT
             elseif y == self.height then
                 idLayer = DELIMITER_BOTTOM
+            elseif y == 2 and
+                (x == 5 or x == 8 or x == 11 or x == 14 or x == 17 or x == 20) then
+                idLayer = TILE_SCONCE
+                lighter:addLight((x - 1) * TILE_SIZE + self.renderOffsetX + TILE_SIZE / 2,
+                                    (y - 1) * TILE_SIZE + self.renderOffsetY + TILE_SIZE / 3,
+                                    20, 56, 87, 71)
             end
 
             table.insert(self.tiles[y], {
@@ -87,14 +95,14 @@ function Wagon:generateWallsAndFloors()
     end
 end
 
-function Wagon:generatePassengersWagonObjects()
-    for y = 1, 41, 7.75 do
-        -- top
-        table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['chair'], y * TILE_SIZE / 2, 6 * TILE_SIZE / 2))
-        -- bottom
-        table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['chair'], y * TILE_SIZE / 2, 18 * TILE_SIZE / 2))
-    end
-end
+-- function Wagon:generatePassengersWagonObjects()
+--     for y = 1, 41, 7.75 do
+--         -- top
+--         table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['chair'], y * TILE_SIZE / 2, 6 * TILE_SIZE / 2))
+--         -- bottom
+--         table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['chair'], y * TILE_SIZE / 2, 18 * TILE_SIZE / 2))
+--     end
+-- end
 
 function Wagon:update(dt)
     self.player:update(dt)
@@ -265,15 +273,17 @@ function Wagon:render()
 
     love.graphics.setStencilTest('less', 1)
 
-    for k, object in pairs(self.objects) do
-        object:render(self.renderOffsetX, self.renderOffsetY)
-    end
+    -- for k, object in pairs(self.objects) do
+    --     object:render(self.renderOffsetX, self.renderOffsetY)
+    -- end
 
     if self.player then
         self.player:render()
     end
 
     love.graphics.setStencilTest()
+
+    lighter:drawLights()
 
     -- --
     -- -- DEBUG DRAWING OF STENCIL RECTANGLES
