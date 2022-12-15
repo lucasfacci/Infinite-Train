@@ -1,12 +1,12 @@
 Wagon = Class{}
 
-local lighter = Lighter()
-
 function Wagon:init(player)
     self.width = MAP_WIDTH
     self.height = MAP_HEIGHT
 
     self.backgroundScroll = 0
+
+    self.lighter = Lighter()
 
     self.player = player
 
@@ -80,7 +80,7 @@ function Wagon:generateWagon()
             elseif y == 2 and
                 (x == 5 or x == 8 or x == 11 or x == 14 or x == 17 or x == 20) then
                 idLayer = TILE_SCONCE
-                lighter:addLight((x - 1) * TILE_SIZE + self.renderOffsetX + TILE_SIZE / 2,
+                self.lighter:addLight((x - 1) * TILE_SIZE + self.renderOffsetX + TILE_SIZE / 2,
                                     (y - 1) * TILE_SIZE + self.renderOffsetY + TILE_SIZE / 3,
                                     20, 56, 87, 71)
             end
@@ -285,7 +285,7 @@ function Wagon:render()
 
     love.graphics.setStencilTest()
 
-    lighter:drawLights()
+    self.lighter:drawLights()
 
     -- --
     -- -- DEBUG DRAWING OF STENCIL RECTANGLES
