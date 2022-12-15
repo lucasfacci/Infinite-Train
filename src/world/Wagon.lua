@@ -1,5 +1,7 @@
 Wagon = Class{}
 
+local lighter = Lighter()
+
 function Wagon:init(player)
     self.width = MAP_WIDTH
     self.height = MAP_HEIGHT
@@ -20,7 +22,6 @@ function Wagon:init(player)
 end
 
 function Wagon:generateWagon()
-    lighter = Lighter()
     local tileFloor = TILE_FLOORS[math.random(#TILE_FLOORS)]
     local tileTopWall = TILE_TOP_WALLS[math.random(#TILE_TOP_WALLS)]
 
@@ -54,7 +55,8 @@ function Wagon:generateWagon()
             else
                 id = tileFloor
             end
-            -- generates delimiters and sconces
+
+            -- generates delimiters, sconces and lights
             if y == 1 and x == 1 then
                 idLayer = DELIMITER_TOP_LEFT_CORNER
             elseif y == 1 and x == self.width then

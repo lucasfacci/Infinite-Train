@@ -41,4 +41,42 @@ function PlayerWalkState:update(dt)
             self.entity.y = self.entity.y - PLAYER_WALK_SPEED * dt
         end
     end
+
+    -- if collides the left door
+    if self.entity.x <= 6 and self.entity.direction == 'left' then
+        gStateStack:push(FadeInState({
+            r = 0, g = 0, b = 0,
+        }, 1,
+        function()
+            gStateStack:push(PlayState({
+                direction = 'left',
+                x = VIRTUAL_WIDTH - self.entity.width - 6,
+                y = self.entity.y
+            }))
+            gStateStack:push(FadeOutState({
+                r = 0, g = 0, b = 0,
+            }, 1,
+            function()
+            end))
+        end))
+    end
+
+    -- if collides the right door
+    if self.entity.x >= VIRTUAL_WIDTH - self.entity.width - 6 and self.entity.direction == 'right' then
+        gStateStack:push(FadeInState({
+            r = 0, g = 0, b = 0,
+        }, 1,
+        function()
+            gStateStack:push(PlayState({
+                direction = 'right',
+                x = 6,
+                y = self.entity.y
+            }))
+            gStateStack:push(FadeOutState({
+                r = 0, g = 0, b = 0,
+            }, 1,
+            function()
+            end))
+        end))
+    end
 end

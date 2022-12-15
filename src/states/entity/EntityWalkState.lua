@@ -16,8 +16,8 @@ function EntityWalkState:update(dt)
         if self.entity.x <= MAP_RENDER_OFFSET_X + 2 then
             -- if collides the left door
             if self.entity.y >= (5.7 * TILE_SIZE) and self.entity.y <= (8.5 * TILE_SIZE) then
-                if self.entity.x <= 0 + 6 then
-                    self.entity.x = 0 + 6
+                if self.entity.x <= 6 then
+                    self.entity.x = 6
                     self.bumped = true
                 end
             -- if collides the left wall

@@ -28,6 +28,8 @@ require 'src/states/entity/player/PlayerWalkState'
 
 require 'src/states/game/StartState'
 require 'src/states/game/PlayState'
+require 'src/states/game/FadeInState'
+require 'src/states/game/FadeOutState'
 
 gTextures = {
     ['background'] = love.graphics.newImage('graphics/background.png'),

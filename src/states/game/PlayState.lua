@@ -1,12 +1,14 @@
 PlayState = Class{__includes = BaseState}
 
-function PlayState:init()
+function PlayState:init(params)
     self.player = Player {
+        direction =  params.direction or 'down',
+
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
 
-        x = VIRTUAL_WIDTH / 2 - 16,
-        y = VIRTUAL_HEIGHT / 2 - 16,
+        x = params.x or VIRTUAL_WIDTH / 2 - 16,
+        y = params.y or VIRTUAL_HEIGHT / 2 - 16,
 
         width = 32,
         height = 32

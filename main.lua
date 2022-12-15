@@ -12,7 +12,7 @@ function love.load()
     })
 
     gStateStack = StateStack()
-    gStateStack:push(PlayState())
+    gStateStack:push(PlayState({}))
 
     love.keyboard.keysPressed = {}
 end
