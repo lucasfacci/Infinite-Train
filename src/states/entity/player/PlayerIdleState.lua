@@ -2,7 +2,7 @@ PlayerIdleState = Class{__includes = EntityIdleState}
 
 function PlayerIdleState:enter()
     self.entity.offsetX = 0
-    self.entity.offsetY = 5
+    self.entity.offsetY = 0
 end
 
 function PlayerIdleState:update(dt)

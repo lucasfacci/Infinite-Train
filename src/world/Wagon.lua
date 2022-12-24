@@ -13,12 +13,20 @@ function Wagon:init(player)
     self.renderOffsetX = MAP_RENDER_OFFSET_X
     self.renderOffsetY = MAP_RENDER_OFFSET_Y
 
+    self.adjacentOffsetX = 0
+    self.adjacentOffsetY = 0
+
     self.tiles = {}
     self.tilesLayer = {}
     self:generateWagon()
 
-    -- self.objects = {}
-    -- self:generatePassengersWagonObjects()
+    -- objects in the room
+    self.objects = {}
+    self:generatePassengersWagonObjects()
+
+    -- entities in the room
+    self.entities = {}
+    self.generateEntities()
 end
 
 function Wagon:generateWagon()
@@ -94,19 +102,138 @@ function Wagon:generateWagon()
     end
 end
 
--- function Wagon:generatePassengersWagonObjects()
---     for y = 1, 41, 7.75 do
---         -- top
---         table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['chair'], y * TILE_SIZE / 2, 6 * TILE_SIZE / 2))
---         -- bottom
---         table.insert(self.objects, GameObject(GAME_OBJECT_DEFS['chair'], y * TILE_SIZE / 2, 18 * TILE_SIZE / 2))
---     end
--- end
+function Wagon:generatePassengersWagonObjects()
+    local chairTop = GameObject(GAME_OBJECT_DEFS['chair'], 7 * TILE_SIZE + self.renderOffsetX, 6 * TILE_SIZE + self.renderOffsetY)
+    local chairBottom = GameObject(GAME_OBJECT_DEFS['chair'], 15 * TILE_SIZE + self.renderOffsetX, 6 * TILE_SIZE + self.renderOffsetY)
+
+    chairTop.onCollide = function()
+
+        if chairTop.solid == true then
+            
+            if self.player.direction == 'left' then
+
+                -- if the player is in the bottom side of the chair
+                if self.player.y <= chairTop.y + chairTop.height - self.player.height + self.player.height / 4 and self.player.y + 2 > chairTop.y + chairTop.height - self.player.height + self.player.height / 4 then
+                    self.player.y = chairTop.y + chairTop.height - self.player.height + self.player.height / 4
+
+                -- if the player is in the right side of the chair
+                elseif self.player.x <= chairTop.x + chairTop.width and self.player.y + self.player.height > chairTop.y and self.player.y < chairTop.y + chairTop.height - self.player.height + self.player.height / 4 then
+                    self.player.x = chairTop.x + chairTop.width
+                end
+
+            elseif self.player.direction == 'right' then
+
+                -- if the player is in the bottom side of the chair
+                if self.player.y <= chairTop.y + chairTop.height - self.player.height + self.player.height / 4 and self.player.y + 2 > chairTop.y + chairTop.height - self.player.height + self.player.height / 4 then
+                    self.player.y = chairTop.y + chairTop.height - self.player.height + self.player.height / 4
+
+                -- if the player is in the left side of the chair
+                elseif self.player.x + self.player.width >= chairTop.x and self.player.y + self.player.height > chairTop.y and self.player.y + 2 < chairTop.y + chairTop.height - self.player.height + self.player.height / 4 then
+                    self.player.x = chairTop.x - self.player.width
+                end
+
+            elseif self.player.direction == 'up' then
+                
+                -- if the player is in the bottom side of the chair
+                if (self.player.y <= chairTop.y + chairTop.height - self.player.height + self.player.height / 4) and (self.player.x + self.player.width > chairTop.x) and (self.player.x < chairTop.x + chairTop.width) then
+                    self.player.y = chairTop.y + chairTop.height - self.player.height + self.player.height / 4
+                end
+
+            end
+            
+        end
+    end
+
+    chairBottom.onCollide = function()
+
+        if chairBottom.solid == true then
+            
+            if self.player.direction == 'left' then
+
+                -- if the player is in the top side of the chair
+                if self.player.y + self.player.height - self.player.height / 4 >= chairBottom.y and self.player.y + self.player.height - 2 < chairBottom.y and self.player.x + self.player.width < chairBottom.x + chairBottom.width + self.player.width then
+                    self.player.y = chairBottom.y - self.player.height + self.player.height / 4
+
+                -- if the player is in the right side of the chair
+                elseif (self.player.x <= chairBottom.x + chairBottom.width) and (self.player.y + self.player.height > chairBottom.y) and self.player.y < chairBottom.y + chairBottom.height - self.player.height + self.player.height / 4 - 2 then
+                    self.player.x = chairBottom.x + chairBottom.width
+                end
+
+            elseif self.player.direction == 'right' then
+
+                -- if the player is in the top side of the chair
+                if self.player.y + self.player.height - self.player.height / 4 >= chairBottom.y and self.player.y + self.player.height - 2 < chairBottom.y and self.player.x + self.player.width < chairBottom.x + chairBottom.width + self.player.width then
+                    self.player.y = chairBottom.y - self.player.height + self.player.height / 4
+
+                -- if the player is in the left side of the chair
+                elseif (self.player.x + self.player.width >= chairBottom.x) and (self.player.y + self.player.height > chairBottom.y) and self.player.y < chairBottom.y + chairBottom.height - self.player.height + self.player.height / 4 - 2 then
+                    self.player.x = chairBottom.x - self.player.width
+                end
+
+            elseif self.player.direction == 'down' then
+
+                -- if the player is in the top side of the chair
+                if (self.player.y + self.player.height - self.player.height / 4 >= chairBottom.y) and (self.player.x + self.player.width > chairBottom.x) and (self.player.x < chairBottom.x + chairBottom.width) then
+                    self.player.y = chairBottom.y - self.player.height + self.player.height / 4
+                end
+
+            end
+            
+        end
+    end
+
+    -- for y = 1, 41, 7.75 do
+    --     local chairTop = GameObject(GAME_OBJECT_DEFS['chair'], y * TILE_SIZE / 2 + self.renderOffsetX, 6 * TILE_SIZE / 2 + self.renderOffsetY)
+
+    --     local chairBottom = GameObject(GAME_OBJECT_DEFS['chair'], y * TILE_SIZE / 2 + self.renderOffsetX, 18 * TILE_SIZE / 2 + self.renderOffsetY)
+        
+    --     chairTop.onCollide = function()
+    --         if self.player.direction == 'left' then
+    --             self.player.x = chairTop.x + chairTop.width
+    --         elseif self.player.direction == 'right' then
+    --             self.player.x = chairTop.x - self.player.width
+    --         elseif self.player.direction == 'up' then
+    --             self.player.y = chairTop.y + chairTop.height - self.player.height / 2
+    --         elseif self.player.direction == 'down' then
+    --             self.player.y = chairTop.y - self.player.height
+    --         end
+    --     end
+
+    --     chairBottom.onCollide = function()
+    --         if self.player.direction == 'left' then
+    --             self.player.x = chairBottom.x + chairBottom.width
+    --         elseif self.player.direction == 'right' then
+    --             self.player.x = chairBottom.x - self.player.width
+    --         elseif self.player.direction == 'up' then
+    --             self.player.y = chairBottom.y + chairBottom.height - self.player.height / 2
+    --         elseif self.player.direction == 'down' then
+    --             self.player.y = chairBottom.y - self.player.height
+    --         end
+    --     end
+
+    -- top
+    table.insert(self.objects, chairTop)
+    -- bottom
+    table.insert(self.objects, chairBottom)
+    -- end
+end
+
+function Wagon:generateEntities()
+
+end
 
 function Wagon:update(dt)
     self.player:update(dt)
 
     self.backgroundScroll = (self.backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
+
+    for k, object in pairs(self.objects) do
+        object:update(dt, self.entities, self.objects)
+
+        if self.player:collides(object) then
+            object:onCollide()
+        end
+    end
 end
 
 function Wagon:render()
@@ -272,9 +399,9 @@ function Wagon:render()
 
     love.graphics.setStencilTest('less', 1)
 
-    -- for k, object in pairs(self.objects) do
-    --     object:render(self.renderOffsetX, self.renderOffsetY)
-    -- end
+    for k, object in pairs(self.objects) do
+        object:render(self.adjacentOffsetX, self.adjacentOffsetY)
+    end
 
     if self.player then
         self.player:render()
@@ -284,14 +411,17 @@ function Wagon:render()
 
     self.lighter:drawLights()
 
-    -- --
-    -- -- DEBUG DRAWING OF STENCIL RECTANGLES
-    -- --
+    --
+    -- DEBUG DRAWING OF STENCIL RECTANGLES
+    --
 
     -- love.graphics.setColor(0, 255, 0, 100)
 
-    -- -- bottom
-    -- love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT - self.renderOffsetY - TILE_SIZE / 2, VIRTUAL_WIDTH, self.renderOffsetY + TILE_SIZE)
+    -- -- é necessário adicionar o + self.renderOffsetX depois do 40
+    -- love.graphics.rectangle('fill', self.renderOffsetX + TILE_SIZE / 2, self.renderOffsetY - TILE_SIZE / 2, 32, self.renderOffsetY + TILE_SIZE)
+
+    -- -- -- bottom
+    -- -- love.graphics.rectangle('fill', 0, VIRTUAL_HEIGHT - self.renderOffsetY - TILE_SIZE / 2, VIRTUAL_WIDTH, self.renderOffsetY + TILE_SIZE)
 
     -- love.graphics.setColor(255, 255, 255, 255)
 end

@@ -4,7 +4,7 @@ function PlayerWalkState:init(player)
     self.entity = player
 
     self.entity.offsetX = 0
-    self.entity.offsetY = 5
+    self.entity.offsetY = 0
 end
 
 function PlayerWalkState:update(dt)
@@ -69,10 +69,10 @@ function PlayerWalkState:update(dt)
     end
 
     -- if collides a left wall
-    if self.entity.x <= MAP_RENDER_OFFSET_X + 2 then
+    if self.entity.x <= MAP_RENDER_OFFSET_X + 8 then
         -- if collides the left door
-        if self.entity.y >= (5.7 * TILE_SIZE) and self.entity.y <= (8.5 * TILE_SIZE) then
-            if self.entity.x <= 6 and self.entity.direction == 'left' then
+        if self.entity.y >= (5.4 * TILE_SIZE) and self.entity.y <= (8.4 * TILE_SIZE) then
+            if self.entity.x <= 12 and self.entity.direction == 'left' then
                 self.bumped = true
                 gStateStack:push(FadeInState({
                     r = 0, g = 0, b = 0,
@@ -80,7 +80,7 @@ function PlayerWalkState:update(dt)
                 function()
                     gStateStack:push(PlayState({
                         direction = 'left',
-                        x = VIRTUAL_WIDTH - self.entity.width - 6,
+                        x = VIRTUAL_WIDTH - self.entity.width - 12,
                         y = self.entity.y
                     }))
                     gStateStack:push(FadeOutState({
@@ -92,16 +92,16 @@ function PlayerWalkState:update(dt)
             end
         -- if collides the left wall
         else
-            self.entity.x = MAP_RENDER_OFFSET_X + 2
+            self.entity.x = MAP_RENDER_OFFSET_X + 8
             self.bumped = true
         end
     end
 
     -- if collides a right wall
-    if self.entity.x + self.entity.width >= VIRTUAL_WIDTH - MAP_RENDER_OFFSET_X - 2 then
+    if self.entity.x + self.entity.width >= VIRTUAL_WIDTH - MAP_RENDER_OFFSET_X - 8 then
         -- if collides the right door
-        if self.entity.y >= (5.7 * TILE_SIZE) and self.entity.y <= (8.5 * TILE_SIZE) then
-            if self.entity.x >= VIRTUAL_WIDTH - self.entity.width - 6 and self.entity.direction == 'right' then
+        if self.entity.y >= (5.4 * TILE_SIZE) and self.entity.y <= (8.4 * TILE_SIZE) then
+            if self.entity.x >= VIRTUAL_WIDTH - self.entity.width - 12 and self.entity.direction == 'right' then
                 self.bumped = true
                 gStateStack:push(FadeInState({
                     r = 0, g = 0, b = 0,
@@ -109,7 +109,7 @@ function PlayerWalkState:update(dt)
                 function()
                     gStateStack:push(PlayState({
                         direction = 'right',
-                        x = 6,
+                        x = 12,
                         y = self.entity.y
                     }))
                     gStateStack:push(FadeOutState({
@@ -121,7 +121,7 @@ function PlayerWalkState:update(dt)
             end
         -- if collides the right wall
         else
-            self.entity.x = VIRTUAL_WIDTH - MAP_RENDER_OFFSET_X - self.entity.width - 2
+            self.entity.x = VIRTUAL_WIDTH - MAP_RENDER_OFFSET_X - self.entity.width - 8
             self.bumped = true
         end
     end
@@ -130,26 +130,26 @@ function PlayerWalkState:update(dt)
     if self.entity.x <= MAP_RENDER_OFFSET_X or
     self.entity.x + self.entity.width >= VIRTUAL_WIDTH - MAP_RENDER_OFFSET_X - 1 then
         -- if collides the top wall of the right or left door
-        if self.entity.y <= 5.8 * TILE_SIZE then
-            self.entity.y = 5.8 * TILE_SIZE
+        if self.entity.y <= 5.5 * TILE_SIZE then
+            self.entity.y = 5.5 * TILE_SIZE
             self.bumped = true
         end
         -- if collides the bottom wall of the right or left door
-        if self.entity.y >= 8.4 * TILE_SIZE then
-            self.entity.y = 8.4 * TILE_SIZE
+        if self.entity.y >= 8.3 * TILE_SIZE then
+            self.entity.y = 8.3 * TILE_SIZE
             self.bumped = true
         end
     end
 
     -- if collides the top wall
-    if self.entity.y + self.entity.height <= MAP_RENDER_OFFSET_Y + TILE_SIZE * 5 - (TILE_SIZE / 2) then
-        self.entity.y = (MAP_RENDER_OFFSET_Y + TILE_SIZE * 5) - (self.entity.height + TILE_SIZE / 2)
+    if self.entity.y + self.entity.height <= MAP_RENDER_OFFSET_Y + TILE_SIZE * 4 + (TILE_SIZE / 4) then
+        self.entity.y = (MAP_RENDER_OFFSET_Y + TILE_SIZE * 4) - (self.entity.height - TILE_SIZE / 4)
         self.bumped = true
     end
 
     -- if collides the bottom wall
-    if self.entity.y + self.entity.height >= VIRTUAL_HEIGHT - MAP_RENDER_OFFSET_Y + (MAP_RENDER_OFFSET_Y / 4) then
-        self.entity.y = VIRTUAL_HEIGHT - MAP_RENDER_OFFSET_Y + (MAP_RENDER_OFFSET_Y / 4) - self.entity.height
+    if self.entity.y + self.entity.height >= VIRTUAL_HEIGHT - MAP_RENDER_OFFSET_Y then
+        self.entity.y = VIRTUAL_HEIGHT - MAP_RENDER_OFFSET_Y - self.entity.height
     end
 
     EntityWalkState.update(self, dt)

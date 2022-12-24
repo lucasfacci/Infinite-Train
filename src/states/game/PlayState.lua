@@ -10,7 +10,7 @@ function PlayState:init(params)
         x = params.x or VIRTUAL_WIDTH / 2 - 16,
         y = params.y or VIRTUAL_HEIGHT / 2 - 16,
 
-        width = 32,
+        width = 21,
         height = 32
     }
 
