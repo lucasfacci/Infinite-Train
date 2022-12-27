@@ -22,6 +22,9 @@ function GameObject:init(def, x, y)
     self.dx = 0
     self.dy = 0
 
+    -- it keeps track of the side that the collision happened last time/is happening
+    self.lastCollisionSide = nil
+
     self.onCollide = function() end
 end
 
