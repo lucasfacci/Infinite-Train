@@ -6,6 +6,7 @@ end
 
 function StateStack:update(dt)
     self.states[#self.states]:update(dt)
+    -- print(#self.states)
 end
 
 function StateStack:processAI(params, dt)

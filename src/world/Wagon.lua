@@ -20,11 +20,11 @@ function Wagon:init(player)
     self.tilesLayer = {}
     self:generateWagon()
 
-    -- objects in the room
+    -- objects in the wagon
     self.objects = {}
     self:generatePassengersWagonObjects()
 
-    -- entities in the room
+    -- entities in the wagon
     self.entities = {}
     self.generateEntities()
 end
@@ -196,7 +196,7 @@ function Wagon:generatePassengersWagonObjects()
 end
 
 function Wagon:generateEntities()
-
+    
 end
 
 function Wagon:update(dt)

@@ -32,6 +32,7 @@ require 'src/states/game/FadeInState'
 require 'src/states/game/FadeOutState'
 
 gTextures = {
+    ['start_background'] = love.graphics.newImage('graphics/start_background.png'),
     ['background'] = love.graphics.newImage('graphics/background.png'),
     ['tiles'] = love.graphics.newImage('graphics/tilesheet.png'),
     ['character_walk'] = love.graphics.newImage('graphics/character_walk.png'),
@@ -43,4 +44,9 @@ gFrames = {
     ['tiles'] = GenerateQuads(gTextures['tiles'], 16, 16),
     ['character_walk'] = GenerateQuads(gTextures['character_walk'], 21, 32),
     ['chairs'] = GenerateQuads(gTextures['chairs'], 32, 48)
+}
+
+gFonts = {
+    ['rye-medium'] = love.graphics.newFont('fonts/Rye-Regular.ttf', 32),
+    ['rye-small'] = love.graphics.newFont('fonts/Rye-Regular.ttf', 16)
 }

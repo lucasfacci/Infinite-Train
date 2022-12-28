@@ -1,8 +1,8 @@
 require 'src/Dependencies'
 
 function love.load()
-    love.graphics.setDefaultFilter('nearest', 'nearest')
     love.window.setTitle('Infinite Train')
+    love.graphics.setDefaultFilter('nearest', 'nearest')
 
     math.randomseed(os.time())
 
@@ -13,8 +13,10 @@ function love.load()
         stretched = false
     })
 
+    love.graphics.setFont(gFonts['rye-medium'])
+
     gStateStack = StateStack()
-    gStateStack:push(PlayState({}))
+    gStateStack:push(StartState({}))
 
     love.keyboard.keysPressed = {}
 end
