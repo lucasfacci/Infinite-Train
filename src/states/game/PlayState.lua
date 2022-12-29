@@ -6,6 +6,7 @@ function PlayState:init(params)
 
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
+        health = ENTITY_DEFS['player'].health,
 
         x = params.x or VIRTUAL_WIDTH / 2 - 16,
         y = params.y or VIRTUAL_HEIGHT / 2 - 16,
@@ -28,10 +29,20 @@ function PlayState:update(dt)
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
-
+    
     self.train:update(dt)
 end
 
 function PlayState:render()
+    love.graphics.push()
     self.train:render()
+    love.graphics.pop()
+
+    if self.player.dead == false and self.player.health >= 1 then
+        love.graphics.draw(gTextures['character_life'], gFrames['character_life'][self.player.health],
+            VIRTUAL_WIDTH - 102, -1)
+    else
+        love.graphics.draw(gTextures['character_life'], gFrames['character_life'][1],
+            VIRTUAL_WIDTH - 102, -1)
+    end
 end

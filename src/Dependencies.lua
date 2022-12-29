@@ -36,6 +36,7 @@ gTextures = {
     ['background'] = love.graphics.newImage('graphics/background.png'),
     ['tiles'] = love.graphics.newImage('graphics/tilesheet.png'),
     ['character_walk'] = love.graphics.newImage('graphics/character_walk.png'),
+    ['character_life'] = love.graphics.newImage('graphics/character_life.png'),
     ['chairs'] = love.graphics.newImage('graphics/chairs.png')
 }
 
@@ -43,6 +44,7 @@ gFrames = {
     ['background'] = GenerateQuads(gTextures['background'], 864, 64),
     ['tiles'] = GenerateQuads(gTextures['tiles'], 16, 16),
     ['character_walk'] = GenerateQuads(gTextures['character_walk'], 21, 32),
+    ['character_life'] = GenerateQuads(gTextures['character_life'], 100, 15),
     ['chairs'] = GenerateQuads(gTextures['chairs'], 32, 48)
 }
 
