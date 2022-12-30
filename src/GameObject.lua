@@ -22,8 +22,12 @@ function GameObject:init(def, x, y)
     self.dx = 0
     self.dy = 0
 
-    -- it keeps track of the side that the collision happened last time/is happening
-    self.lastCollisionSide = nil
+    -- it keeps track of the side that all the entities are in relation to this game object
+    self.entityNameAndSide = {}
+
+    for k, entity in pairs(ENTITY_DEFS) do
+        self.entityNameAndSide[k] = {side = nil}
+    end
 
     self.onCollide = function(entity) end
 end

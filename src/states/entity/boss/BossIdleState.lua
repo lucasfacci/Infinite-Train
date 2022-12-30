@@ -1,7 +1,7 @@
-EntityIdleState = Class{__includes = BaseState}
+BossIdleState = Class{__includes = EntityIdleState}
 
-function EntityIdleState:init(entity)
-    self.entity = entity
+function BossIdleState:init(boss)
+    self.entity = boss
     self.entity:changeAnimation('idle-' .. self.entity.direction)
 
     -- used for AI waiting
@@ -9,7 +9,7 @@ function EntityIdleState:init(entity)
     self.waitTimer = 0
 end
 
-function EntityIdleState:processAI(params, dt)
+function BossIdleState:processAI(params, dt)
     if self.waitDuration == 0 then
         self.waitDuration = math.random(5)
     else
@@ -21,7 +21,7 @@ function EntityIdleState:processAI(params, dt)
     end
 end
 
-function EntityIdleState:render()
+function BossIdleState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY))

@@ -10,7 +10,6 @@ require 'src/Entity'
 require 'src/entity_defs'
 require 'src/GameObject'
 require 'src/game_object_defs'
-require 'src/Player'
 require 'src/StateMachine'
 require 'src/Util'
 
@@ -25,6 +24,9 @@ require 'src/states/entity/EntityWalkState'
 
 require 'src/states/entity/player/PlayerIdleState'
 require 'src/states/entity/player/PlayerWalkState'
+
+require 'src/states/entity/boss/BossIdleState'
+require 'src/states/entity/boss/BossWalkState'
 
 require 'src/states/game/StartState'
 require 'src/states/game/PlayState'

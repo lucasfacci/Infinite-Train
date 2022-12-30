@@ -1,7 +1,9 @@
 PlayState = Class{__includes = BaseState}
 
 function PlayState:init(params)
-    self.player = Player {
+    self.player = Entity {
+        type = ENTITY_DEFS['player'].type,
+        
         direction = params.direction or 'down',
 
         animations = ENTITY_DEFS['player'].animations,
@@ -15,7 +17,9 @@ function PlayState:init(params)
         height = ENTITY_DEFS['player'].height
     }
 
-    self.enemy = Entity {
+    self.boss = Entity {
+        type = ENTITY_DEFS['cowboy'].type,
+
         direction = 'down',
 
         animations = ENTITY_DEFS['cowboy'].animations,
@@ -29,20 +33,20 @@ function PlayState:init(params)
         height = ENTITY_DEFS['cowboy'].height
     }
 
-    self.train = Train(self.player, self.enemy)
+    self.train = Train(self.player, self.boss)
 
     self.player.stateMachine = StateMachine {
         ['walk'] = function() return PlayerWalkState(self.player) end,
         ['idle'] = function() return PlayerIdleState(self.player) end
     }
 
-    self.enemy.stateMachine = StateMachine {
-        ['walk'] = function() return EntityWalkState(self.enemy) end,
-        ['idle'] = function() return EntityIdleState(self.enemy) end
+    self.boss.stateMachine = StateMachine {
+        ['walk'] = function() return BossWalkState(self.boss) end,
+        ['idle'] = function() return BossIdleState(self.boss) end
     }
 
     self.player:changeState('idle')
-    self.enemy:changeState('idle')
+    self.boss:changeState('idle')
 end
 
 function PlayState:update(dt)
@@ -66,8 +70,8 @@ function PlayState:render()
             VIRTUAL_WIDTH - 102, -1)
     end
 
-    if self.enemy.dead == false and self.enemy.health >= 1 then
-        love.graphics.draw(gTextures['cowboy_life'], gFrames['cowboy_life'][self.enemy.health],
+    if self.boss.dead == false and self.boss.health >= 1 then
+        love.graphics.draw(gTextures['cowboy_life'], gFrames['cowboy_life'][self.boss.health],
             2, -1)
     else
         love.graphics.draw(gTextures['cowboy_life'], gFrames['cowboy_life'][1],

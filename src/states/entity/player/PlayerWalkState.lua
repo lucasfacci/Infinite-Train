@@ -148,6 +148,4 @@ function PlayerWalkState:update(dt)
     if self.entity.y + self.entity.height >= VIRTUAL_HEIGHT - MAP_RENDER_OFFSET_Y then
         self.entity.y = VIRTUAL_HEIGHT - MAP_RENDER_OFFSET_Y - self.entity.height
     end
-
-    EntityWalkState.update(self, dt)
 end

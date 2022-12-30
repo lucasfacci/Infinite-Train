@@ -1,6 +1,7 @@
 Entity = Class{}
 
 function Entity:init(def)
+    self.type = def.type
     self.direction = def.direction
 
     self.animations = self:createAnimations(def.animations)
@@ -53,23 +54,24 @@ end
 function Entity:collides(target)
     -- specific collision rules for the chair object
     if target.type == 'chair' then
+        -- it detects that the entity is at the left side of the target chair
         if self.x + self.width <= target.x then
-            target.lastCollisionSide = 'left'
+            target.entityNameAndSide[self.type].side = 'left'
         end
-
+        -- it detects that the entity is at the right side of the target chair
         if self.x >= target.x + target.width then
-            target.lastCollisionSide = 'right'
+            target.entityNameAndSide[self.type].side = 'right'
         end
-
+        -- it detects that the entity is at the top side of the target chair
         if self.y + self.height - self.height / 3 <= target.y then
-            target.lastCollisionSide = 'top'
+            target.entityNameAndSide[self.type].side = 'top'
         end
-
+        -- it detects that the entity is at the bottom side of the target chair
         if self.y >= target.y + target.height - self.height + self.height / 4 then
-            target.lastCollisionSide = 'bottom'
+            target.entityNameAndSide[self.type].side = 'bottom'
         end
     end
-    
+    -- it returns true if the entity has collided with some game object and false if not
     return not (self.x + self.width < target.x or self.x > target.x + target.width or
                 self.y + self.height < target.y or self.y > target.y + target.height)
 end

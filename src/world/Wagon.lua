@@ -1,6 +1,6 @@
 Wagon = Class{}
 
-function Wagon:init(player, enemy)
+function Wagon:init(player, boss)
     self.width = MAP_WIDTH
     self.height = MAP_HEIGHT
 
@@ -9,7 +9,7 @@ function Wagon:init(player, enemy)
     self.lighter = Lighter()
 
     self.player = player
-    self.enemy = enemy
+    self.boss = boss
 
     self.renderOffsetX = MAP_RENDER_OFFSET_X
     self.renderOffsetY = MAP_RENDER_OFFSET_Y
@@ -102,39 +102,44 @@ function Wagon:generatePassengersWagonObjects()
 
         local chairBottom = GameObject(GAME_OBJECT_DEFS['chair'], y * TILE_SIZE / 2 + self.renderOffsetX, 18 * TILE_SIZE / 2 + self.renderOffsetY)
         
-        chairTop.onCollide = function(self, entity)
+        chairTop.onCollide = function(this, entity)
 
             if chairTop.solid == true then
                 
                 if entity.direction == 'left' then
                     
-                    -- if the player is in the right side of the chair
-                    if chairTop.lastCollisionSide == 'right' and entity.y < chairTop.y + chairTop.height - entity.height + entity.height / 4 then
+                    -- if the entity is in the right side of the chair
+                    if chairTop.entityNameAndSide[entity.type].side == 'right' and entity.y < chairTop.y + chairTop.height - entity.height + entity.height / 4 then
                         entity.x = chairTop.x + chairTop.width
+                        entity.stateMachine.current.bumped = true
                     end
     
-                    -- if the player is in the bottom side of the chair
-                    if chairTop.lastCollisionSide == 'bottom' and entity.y <= chairTop.y + chairTop.height - entity.height + entity.height / 4 and entity.x + entity.width > chairTop.x and entity.x < chairTop.x + chairTop.width then
+                    -- if the entity is in the bottom side of the chair
+                    if chairTop.entityNameAndSide[entity.type].side == 'bottom' and entity.y <= chairTop.y + chairTop.height - entity.height + entity.height / 4 and entity.x + entity.width > chairTop.x and entity.x < chairTop.x + chairTop.width then
                         entity.y = chairTop.y + chairTop.height - entity.height + entity.height / 4
+                        entity.stateMachine.current.bumped = true
                     end
     
                 elseif entity.direction == 'right' then
     
-                    -- if the player is in the left side of the chair
-                    if chairTop.lastCollisionSide == 'left' and entity.y < chairTop.y + chairTop.height - entity.height + entity.height / 4 then
+                    -- if the entity is in the left side of the chair
+                    if chairTop.entityNameAndSide[entity.type].side == 'left' and entity.y < chairTop.y + chairTop.height - entity.height + entity.height / 4 then
                         entity.x = chairTop.x - entity.width
+                        entity.stateMachine.current.bumped = true
                     end
     
-                    -- if the player is in the bottom side of the chair
-                    if chairTop.lastCollisionSide == 'bottom' and entity.y <= chairTop.y + chairTop.height - entity.height + entity.height / 4 and entity.x + entity.width > chairTop.x and entity.x < chairTop.x + chairTop.width then
+                    -- if the entity is in the bottom side of the chair
+                    if chairTop.entityNameAndSide[entity.type].side == 'bottom' and entity.y <= chairTop.y + chairTop.height - entity.height + entity.height / 4 and entity.x + entity.width > chairTop.x and entity.x < chairTop.x + chairTop.width then
                         entity.y = chairTop.y + chairTop.height - entity.height + entity.height / 4
+                        entity.stateMachine.current.bumped = true
                     end
     
                 elseif entity.direction == 'up' then
                         
-                    -- if the player is in the bottom side of the chair
+                    -- if the entity is in the bottom side of the chair
                     if entity.y <= chairTop.y + chairTop.height - entity.height + entity.height / 4 and entity.x + entity.width > chairTop.x and entity.x < chairTop.x + chairTop.width then
                         entity.y = chairTop.y + chairTop.height - entity.height + entity.height / 4
+                        entity.stateMachine.current.bumped = true
                     end
     
                 end
@@ -142,39 +147,44 @@ function Wagon:generatePassengersWagonObjects()
             end
         end
     
-        chairBottom.onCollide = function(self, entity)
+        chairBottom.onCollide = function(this, entity)
     
             if chairBottom.solid == true then
     
                 if entity.direction == 'left' then
                     
-                    -- if the player is in the right side of the chair
-                    if chairBottom.lastCollisionSide == 'right' and entity.y < chairBottom.y + chairBottom.height - entity.height + entity.height / 4 then
+                    -- if the entity is in the right side of the chair
+                    if chairBottom.entityNameAndSide[entity.type].side == 'right' and entity.y < chairBottom.y + chairBottom.height - entity.height + entity.height / 4 then
                         entity.x = chairBottom.x + chairBottom.width
+                        entity.stateMachine.current.bumped = true
                     end
     
-                    -- if the player is in the top side of the chair
-                    if chairBottom.lastCollisionSide == 'top' and entity.y + entity.height - entity.height / 3 >= chairBottom.y and entity.x + entity.width > chairBottom.x and entity.x < chairBottom.x + chairBottom.width then
+                    -- if the entity is in the top side of the chair
+                    if chairBottom.entityNameAndSide[entity.type].side == 'top' and entity.y + entity.height - entity.height / 3 >= chairBottom.y and entity.x + entity.width > chairBottom.x and entity.x < chairBottom.x + chairBottom.width then
                         entity.y = chairBottom.y - entity.height + entity.height / 3
+                        entity.stateMachine.current.bumped = true
                     end
     
                 elseif entity.direction == 'right' then
     
-                    -- if the player is in the left side of the chair
-                    if chairBottom.lastCollisionSide == 'left' and entity.y < chairBottom.y + chairBottom.height - entity.height + entity.height / 4 then
+                    -- if the entity is in the left side of the chair
+                    if chairBottom.entityNameAndSide[entity.type].side == 'left' and entity.y < chairBottom.y + chairBottom.height - entity.height + entity.height / 4 then
                         entity.x = chairBottom.x - entity.width
+                        entity.stateMachine.current.bumped = true
                     end
     
-                    -- if the player is in the top side of the chair
-                    if chairBottom.lastCollisionSide == 'top' and entity.y + entity.height - entity.height / 3 >= chairBottom.y and entity.x + entity.width > chairBottom.x and entity.x < chairBottom.x + chairBottom.width then
+                    -- if the entity is in the top side of the chair
+                    if chairBottom.entityNameAndSide[entity.type].side == 'top' and entity.y + entity.height - entity.height / 3 >= chairBottom.y and entity.x + entity.width > chairBottom.x and entity.x < chairBottom.x + chairBottom.width then
                         entity.y = chairBottom.y - entity.height + entity.height / 3
+                        entity.stateMachine.current.bumped = true
                     end
     
                 elseif entity.direction == 'down' then
     
-                    -- if the player is in the top side of the chair
+                    -- if the entity is in the top side of the chair
                     if entity.y + entity.height - entity.height / 3 >= chairBottom.y and entity.x + entity.width > chairBottom.x and entity.x < chairBottom.x + chairBottom.width then
                         entity.y = chairBottom.y - entity.height + entity.height / 3
+                        entity.stateMachine.current.bumped = true
                     end
     
                 end
@@ -192,9 +202,9 @@ end
 function Wagon:update(dt)
     self.player:update(dt)
 
-    if not self.enemy.dead then
-        self.enemy:processAI({wagon = self}, dt)
-        self.enemy:update(dt)
+    if not self.boss.dead then
+        self.boss:processAI({wagon = self}, dt)
+        self.boss:update(dt)
     end
 
     self.backgroundScroll = (self.backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
@@ -204,6 +214,10 @@ function Wagon:update(dt)
 
         if self.player:collides(object) then
             object:onCollide(self.player)
+        end
+
+        if self.boss:collides(object) then
+            object:onCollide(self.boss)
         end
     end
 end
@@ -388,8 +402,8 @@ function Wagon:render()
         self.player:render()
     end
 
-    if not self.enemy.dead then
-        self.enemy:render()
+    if not self.boss.dead then
+        self.boss:render()
     end
 
     love.graphics.setStencilTest()

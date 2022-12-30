@@ -1,5 +1,6 @@
 ENTITY_DEFS = {
     ['player'] = {
+        type = 'player',
         walkSpeed = PLAYER_WALK_SPEED,
         health = 10,
         width = 19,
@@ -44,6 +45,7 @@ ENTITY_DEFS = {
         }
     },
     ['cowboy'] = {
+        type = 'cowboy',
         walkSpeed = PLAYER_WALK_SPEED,
         health = 10,
         width = 18,
