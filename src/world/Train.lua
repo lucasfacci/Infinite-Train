@@ -1,9 +1,10 @@
 Train = Class{}
 
-function Train:init(player)
+function Train:init(player, enemy)
     self.player = player
+    self.enemy = enemy
     
-    self.currentWagon = Wagon(self.player)
+    self.currentWagon = Wagon(self.player, self.enemy)
 end
 
 function Train:update(dt)

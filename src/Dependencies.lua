@@ -36,15 +36,19 @@ gTextures = {
     ['background'] = love.graphics.newImage('graphics/background.png'),
     ['tiles'] = love.graphics.newImage('graphics/tilesheet.png'),
     ['character_walk'] = love.graphics.newImage('graphics/character_walk.png'),
+    ['cowboy_walk'] = love.graphics.newImage('graphics/cowboy_walk.png'),
     ['character_life'] = love.graphics.newImage('graphics/character_life.png'),
+    ['cowboy_life'] = love.graphics.newImage('graphics/cowboy_life.png'),
     ['chairs'] = love.graphics.newImage('graphics/chairs.png')
 }
 
 gFrames = {
     ['background'] = GenerateQuads(gTextures['background'], 864, 64),
     ['tiles'] = GenerateQuads(gTextures['tiles'], 16, 16),
-    ['character_walk'] = GenerateQuads(gTextures['character_walk'], 21, 32),
+    ['character_walk'] = GenerateQuads(gTextures['character_walk'], 19, 32),
+    ['cowboy_walk'] = GenerateQuads(gTextures['cowboy_walk'], 18, 32),
     ['character_life'] = GenerateQuads(gTextures['character_life'], 100, 15),
+    ['cowboy_life'] = GenerateQuads(gTextures['cowboy_life'], 100, 15),
     ['chairs'] = GenerateQuads(gTextures['chairs'], 32, 48)
 }
 

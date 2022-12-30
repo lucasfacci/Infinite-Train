@@ -1,10 +1,6 @@
 StartState = Class{__includes = BaseState}
 
 function StartState:update(dt)
-    -- if love.keyboard.wasPressed('escape') then
-    --     love.event.quit()
-    -- end
-
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         gStateStack:push(FadeInState({
             r = 0, g = 0, b = 0

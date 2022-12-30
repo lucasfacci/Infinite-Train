@@ -25,16 +25,16 @@ function GameObject:init(def, x, y)
     -- it keeps track of the side that the collision happened last time/is happening
     self.lastCollisionSide = nil
 
-    self.onCollide = function() end
+    self.onCollide = function(entity) end
 end
 
-function GameObject:update(dt, entities, objects)
+function GameObject:update(dt, objects)
 
 end
 
-function GameObject:render(adjacentOffsetX, adjacentOffsetY)
+function GameObject:render()
     love.graphics.setColor(1, 1, 1, self.opacity)
     love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.states[self.state].frame or self.frame],
-        self.x + adjacentOffsetX, self.y + adjacentOffsetY)
+        self.x, self.y)
     love.graphics.setColor(1, 1, 1, 1)
 end

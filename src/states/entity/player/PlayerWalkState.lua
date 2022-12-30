@@ -8,9 +8,6 @@ function PlayerWalkState:init(player)
 end
 
 function PlayerWalkState:update(dt)
-    -- assume we didn't hit a wall
-    self.bumped = false
-
     -- walk diagonally to the top left side
     if love.keyboard.isDown('a') and love.keyboard.isDown('w') then
         self.entity.direction = 'left'
