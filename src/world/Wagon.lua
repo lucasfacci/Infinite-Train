@@ -21,6 +21,14 @@ function Wagon:init(player, boss)
     -- objects in the wagon
     self.objects = {}
     self:generatePassengersWagonObjects()
+
+    Event.on('player-fire', function()
+        self.player:fire(190, 190, 95, self.boss)
+    end)
+
+    Event.on('boss-fire', function()
+        self.boss:fire(190, 190, 95, self.player)
+    end)
 end
 
 function Wagon:generateWagon()
@@ -202,7 +210,19 @@ end
 function Wagon:update(dt)
     self.player:update(dt)
 
-    if not self.boss.dead then
+    if self.boss.health <= 0 then
+        self.boss.dead = true
+        if self.boss.luck == 1 then
+            local heart = GameObject(GAME_OBJECT_DEFS['heart'], self.boss.x, self.boss.y)
+
+            table.insert(self.objects, heart)
+
+            heart.onCollide = function(this, entity)
+                entity:heal(1)
+            end
+            self.boss.luck = 0
+        end
+    elseif not self.boss.dead then
         self.boss:processAI({wagon = self}, dt)
         self.boss:update(dt)
     end
@@ -210,10 +230,12 @@ function Wagon:update(dt)
     self.backgroundScroll = (self.backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
 
     for k, object in pairs(self.objects) do
-        object:update(dt, self.objects)
-
+        -- trigger collision callback on object
         if self.player:collides(object) then
             object:onCollide(self.player)
+            if object.type == 'heart' then
+                table.remove(self.objects, k)
+            end
         end
 
         if self.boss:collides(object) then

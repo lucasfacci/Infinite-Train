@@ -1,8 +1,10 @@
 Train = Class{}
 
-function Train:init(player, boss)
+function Train:init(player, boss, level)
     self.player = player
     self.boss = boss
+
+    self.level = level
     
     self.currentWagon = Wagon(self.player, self.boss)
 end

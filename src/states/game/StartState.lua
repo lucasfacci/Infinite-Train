@@ -4,12 +4,14 @@ function StartState:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
         gStateStack:push(FadeInState({
             r = 0, g = 0, b = 0
-        }, 1,
+        }, {}, 1,
         function()
-            gStateStack:push(PlayState({}))
+            gStateStack:push(PlayState({
+                level = 1, direction = 'left', x = VIRTUAL_WIDTH - 31
+            }))
             gStateStack:push(FadeOutState({
                 r = 0, g = 0, b = 0
-            }, 1,
+            }, {}, 1,
             function() end))
         end))
     end

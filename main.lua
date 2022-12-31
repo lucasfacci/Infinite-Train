@@ -16,7 +16,7 @@ function love.load()
     love.graphics.setFont(gFonts['rye-medium'])
 
     gStateStack = StateStack()
-    gStateStack:push(PlayState({}))
+    gStateStack:push(StartState({}))
 
     love.keyboard.keysPressed = {}
 end

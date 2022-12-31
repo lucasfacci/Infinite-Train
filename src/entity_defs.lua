@@ -41,6 +41,22 @@ ENTITY_DEFS = {
                 frames = {13, 14, 15, 16},
                 interval = 0.2,
                 texture = 'character_walk'
+            },
+            ['shoot-down'] = {
+                frames = {1},
+                texture = 'character_shoot'
+            },
+            ['shoot-right'] = {
+                frames = {5},
+                texture = 'character_shoot'
+            },
+            ['shoot-up'] = {
+                frames = {9},
+                texture = 'character_shoot'
+            },
+            ['shoot-left'] = {
+                frames = {13},
+                texture = 'character_shoot'
             }
         }
     },
@@ -86,6 +102,22 @@ ENTITY_DEFS = {
                 frames = {13, 14, 15, 16},
                 interval = 0.2,
                 texture = 'cowboy_walk'
+            },
+            ['shoot-down'] = {
+                frames = {1},
+                texture = 'cowboy_shoot'
+            },
+            ['shoot-right'] = {
+                frames = {5},
+                texture = 'cowboy_shoot'
+            },
+            ['shoot-up'] = {
+                frames = {9},
+                texture = 'cowboy_shoot'
+            },
+            ['shoot-left'] = {
+                frames = {13},
+                texture = 'cowboy_shoot'
             }
         }
     }

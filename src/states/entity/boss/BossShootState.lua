@@ -1,18 +1,24 @@
-BossIdleState = Class{__includes = EntityIdleState}
+BossShootState = Class{__includes = BaseState}
 
-function BossIdleState:init(boss)
+function BossShootState:init(boss)
     self.entity = boss
-    self.entity:changeAnimation('idle-' .. self.entity.direction)
 
-    self.entity.offsetX = 0
+    self.entity.direction = 'right'
+
+    self.entity:changeAnimation('shoot-right')
+
+    -- render offset for spaced character sprite
+    self.entity.offsetX = 6
     self.entity.offsetY = 0
 
     -- used for AI waiting
     self.waitDuration = 0
     self.waitTimer = 0
+
+    Event.dispatch('boss-fire')
 end
 
-function BossIdleState:processAI(params, dt)
+function BossShootState:processAI(params, dt)
     if self.waitDuration == 0 then
         self.waitDuration = 1
     else
@@ -24,7 +30,7 @@ function BossIdleState:processAI(params, dt)
     end
 end
 
-function BossIdleState:render()
+function BossShootState:render()
     local anim = self.entity.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY))

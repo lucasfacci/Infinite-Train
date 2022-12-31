@@ -17,8 +17,12 @@ function Entity:init(def)
     self.walkSpeed = def.walkSpeed
 
     self.health = def.health
+    
+    self.luck = math.random(1)
 
     self.dead = false
+
+    self.projectiles = {}
 end
 
 function Entity:createAnimations(animations)
@@ -49,6 +53,16 @@ function Entity:update(dt)
     if self.currentAnimation then
         self.currentAnimation:update(dt)
     end
+
+    for k, projectile in pairs(self.projectiles) do
+        projectile:update(dt)
+
+        if projectile.hit or projectile.x < 0 or
+            projectile.y < 0 or projectile.x > VIRTUAL_WIDTH or
+            projectile.y > VIRTUAL_HEIGHT then
+            table.remove(self.projectiles, k)
+        end
+    end
 end
 
 function Entity:collides(target)
@@ -76,10 +90,29 @@ function Entity:collides(target)
                 self.y + self.height < target.y or self.y > target.y + target.height)
 end
 
+function Entity:fire(r, g, b, target)
+    table.insert(self.projectiles, Projectile(self, target, r, g, b))
+end
+
+function Entity:heal(healing)
+    self.health = self.health + healing
+    if self.health > 10 then
+        self.health = 10
+    end
+end
+
+function Entity:damage(dmg)
+    self.health = self.health - dmg
+end
+
 function Entity:processAI(params, dt)
     self.stateMachine:processAI(params, dt)
 end
 
 function Entity:render()
     self.stateMachine:render()
+
+    for k, projectile in pairs(self.projectiles) do
+        projectile:render()
+    end
 end

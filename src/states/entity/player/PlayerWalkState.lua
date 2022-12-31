@@ -1,7 +1,8 @@
 PlayerWalkState = Class{__includes = EntityWalkState}
 
-function PlayerWalkState:init(player)
+function PlayerWalkState:init(player, train)
     self.entity = player
+    self.train = train
 
     self.entity.offsetX = 0
     self.entity.offsetY = 0
@@ -65,6 +66,10 @@ function PlayerWalkState:update(dt)
         self.entity:changeState('idle')
     end
 
+    if love.keyboard.wasPressed('space') then
+        self.entity:changeState('shoot')
+    end
+
     -- if collides a left wall
     if self.entity.x <= MAP_RENDER_OFFSET_X + 8 then
         -- if collides the left door
@@ -73,15 +78,21 @@ function PlayerWalkState:update(dt)
                 self.bumped = true
                 gStateStack:push(FadeInState({
                     r = 0, g = 0, b = 0,
+                }, {
+                    y = MAP_RENDER_OFFSET_Y
                 }, 1,
                 function()
                     gStateStack:push(PlayState({
+                        level = self.train.level + 1,
                         direction = 'left',
+                        health = self.entity.health,
                         x = VIRTUAL_WIDTH - self.entity.width - 12,
                         y = self.entity.y
                     }))
                     gStateStack:push(FadeOutState({
                         r = 0, g = 0, b = 0,
+                    }, {
+                        y = MAP_RENDER_OFFSET_Y
                     }, 1,
                     function()
                     end))
@@ -100,21 +111,27 @@ function PlayerWalkState:update(dt)
         if self.entity.y >= (5.4 * TILE_SIZE) and self.entity.y <= (8.4 * TILE_SIZE) then
             if self.entity.x >= VIRTUAL_WIDTH - self.entity.width - 12 and self.entity.direction == 'right' then
                 self.bumped = true
-                gStateStack:push(FadeInState({
-                    r = 0, g = 0, b = 0,
-                }, 1,
-                function()
-                    gStateStack:push(PlayState({
-                        direction = 'right',
-                        x = 12,
-                        y = self.entity.y
-                    }))
-                    gStateStack:push(FadeOutState({
-                        r = 0, g = 0, b = 0,
-                    }, 1,
-                    function()
-                    end))
-                end))
+                self.entity.x = VIRTUAL_WIDTH - self.entity.width - 12
+                -- gStateStack:push(FadeInState({
+                --     r = 0, g = 0, b = 0,
+                -- }, {
+                --     y = MAP_RENDER_OFFSET_Y
+                -- }, 1,
+                -- function()
+                --     gStateStack:push(PlayState({
+                --         direction = 'right',
+                --         health = self.entity.health,
+                --         x = 12,
+                --         y = self.entity.y
+                --     }))
+                --     gStateStack:push(FadeOutState({
+                --         r = 0, g = 0, b = 0,
+                --     }, {
+                --         y = MAP_RENDER_OFFSET_Y
+                --     }, 1,
+                --     function()
+                --     end))
+                -- end))
             end
         -- if collides the right wall
         else

@@ -10,4 +10,8 @@ function PlayerIdleState:update(dt)
         love.keyboard.isDown('w') or love.keyboard.isDown('s') then
         self.entity:changeState('walk')
     end
+
+    if love.keyboard.wasPressed('space') then
+        self.entity:changeState('shoot')
+    end
 end

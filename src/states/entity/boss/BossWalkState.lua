@@ -4,6 +4,9 @@ function BossWalkState:init(boss)
     self.entity = boss
     self.entity:changeAnimation('walk-' .. self.entity.direction)
 
+    self.entity.offsetX = 0
+    self.entity.offsetY = 0
+
     -- used for AI control
     self.moveDuration = 0
     self.movementTimer = 0
@@ -21,19 +24,19 @@ function BossWalkState:processAI(params, dt)
     local directions = {'up', 'down'}
 
     if self.moveDuration == 0 or self.bumped then
-
+        
         -- set an initial move duration and direction
-        self.moveDuration = math.random(3)
+        self.moveDuration = math.random(2)
         self.entity.direction = directions[math.random(#directions)]
         self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
     elseif self.movementTimer > self.moveDuration then
         self.movementTimer = 0
 
-        -- chance to go idle
-        if math.random(3) == 1 then
-            self.entity:changeState('idle')
+        -- chance to shoot
+        if math.random(2) == 1 then
+            self.entity:changeState('shoot')
         else
-            self.moveDuration = math.random(3)
+            self.moveDuration = math.random(2)
             self.entity.direction = directions[math.random(#directions)]
             self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
         end

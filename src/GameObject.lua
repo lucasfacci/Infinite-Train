@@ -32,10 +32,6 @@ function GameObject:init(def, x, y)
     self.onCollide = function(entity) end
 end
 
-function GameObject:update(dt, objects)
-
-end
-
 function GameObject:render()
     love.graphics.setColor(1, 1, 1, self.opacity)
     love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.states[self.state].frame or self.frame],
