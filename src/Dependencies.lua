@@ -34,6 +34,7 @@ require 'src/states/entity/boss/BossShootState'
 
 require 'src/states/game/StartState'
 require 'src/states/game/PlayState'
+require 'src/states/game/GameOverState'
 require 'src/states/game/FadeInState'
 require 'src/states/game/FadeOutState'
 

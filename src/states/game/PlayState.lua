@@ -44,9 +44,9 @@ function PlayState:init(params)
     }
 
     self.boss.stateMachine = StateMachine {
-        ['walk'] = function() return BossWalkState(self.boss) end,
+        ['walk'] = function() return BossWalkState(self.boss, self.train) end,
         ['idle'] = function() return BossIdleState(self.boss) end,
-        ['shoot'] = function() return BossShootState(self.boss) end
+        ['shoot'] = function() return BossShootState(self.boss, self.player) end
     }
 
     self.player:changeState('idle')
@@ -66,17 +66,17 @@ function PlayState:render()
     self.train:render()
     love.graphics.pop()
 
-    if not self.player.dead then
+    if not self.player.dead and self.player.health >= 1 then
         love.graphics.draw(gTextures['character_life'], gFrames['character_life'][self.player.health],
             VIRTUAL_WIDTH - 102, -1)
     end
 
-    if not self.boss.dead then
+    if not self.boss.dead and self.boss.health >= 1 then
         love.graphics.draw(gTextures['cowboy_life'], gFrames['cowboy_life'][self.boss.health],
             2, -1)
     end
 
     love.graphics.setFont(gFonts['londrina-small'])
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.setColor(255/255, 219/255, 49/255)
     love.graphics.printf('Level: ' .. self.level, 0, -5, VIRTUAL_WIDTH, 'center')
 end

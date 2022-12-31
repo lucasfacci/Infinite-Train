@@ -10,6 +10,16 @@ function Projectile:init(entity, target, r, g, b)
 
     self.direction = self.entity.direction
 
+    -- if the player is too close, he will die instantly with a bullet
+    if self.entity.type == 'cowboy' and
+        (self.entity.direction == 'left' or
+            self.target.x < self.entity.x + self.entity.width + TILE_SIZE * 2) then
+        self.damage = 10
+    -- otherwise it will take a normal damage
+    else
+        self.damage = 1
+    end
+
     if self.direction == 'left' then
         self.x = self.entity.x
         self.y = self.entity.y + 16
@@ -66,7 +76,7 @@ function Projectile:update(dt)
     if self.target:collides(self.hitbox) and not self.target.dead then
         gSounds['damage']:play()
         self.hit = true
-        self.target:damage(1)
+        self.target:damage(self.damage)
     end
 end
 

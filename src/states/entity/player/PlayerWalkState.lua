@@ -4,11 +4,15 @@ function PlayerWalkState:init(player, train)
     self.entity = player
     self.train = train
 
+    self.isInTheRightDoor = false
+
     self.entity.offsetX = 0
     self.entity.offsetY = 0
 end
 
 function PlayerWalkState:update(dt)
+    -- self.isInTheRightDoor = false
+
     -- walk diagonally to the top left side
     if love.keyboard.isDown('a') and love.keyboard.isDown('w') then
         self.entity.direction = 'left'
@@ -76,27 +80,31 @@ function PlayerWalkState:update(dt)
         if self.entity.y >= (5.4 * TILE_SIZE) and self.entity.y <= (8.4 * TILE_SIZE) then
             if self.entity.x <= 12 and self.entity.direction == 'left' then
                 self.bumped = true
-                gStateStack:push(FadeInState({
-                    r = 0, g = 0, b = 0,
-                }, {
-                    y = MAP_RENDER_OFFSET_Y
-                }, 1,
-                function()
-                    gStateStack:push(PlayState({
-                        level = self.train.level + 1,
-                        direction = 'left',
-                        health = self.entity.health,
-                        x = VIRTUAL_WIDTH - self.entity.width - 12,
-                        y = self.entity.y
-                    }))
-                    gStateStack:push(FadeOutState({
+                if self.train.boss.dead then
+                    gStateStack:push(FadeInState({
                         r = 0, g = 0, b = 0,
                     }, {
                         y = MAP_RENDER_OFFSET_Y
                     }, 1,
                     function()
+                        gStateStack:push(PlayState({
+                            level = self.train.level + 1,
+                            direction = 'left',
+                            health = self.entity.health,
+                            x = VIRTUAL_WIDTH - self.entity.width - 12,
+                            y = self.entity.y
+                        }))
+                        gStateStack:push(FadeOutState({
+                            r = 0, g = 0, b = 0,
+                        }, {
+                            y = MAP_RENDER_OFFSET_Y
+                        }, 1,
+                        function()
+                        end))
                     end))
-                end))
+                else
+                    self.entity.x = 12
+                end
             end
         -- if collides the left wall
         else
@@ -111,6 +119,7 @@ function PlayerWalkState:update(dt)
         if self.entity.y >= (5.4 * TILE_SIZE) and self.entity.y <= (8.4 * TILE_SIZE) then
             if self.entity.x >= VIRTUAL_WIDTH - self.entity.width - 12 and self.entity.direction == 'right' then
                 self.bumped = true
+                self.isInTheRightDoor = true
                 self.entity.x = VIRTUAL_WIDTH - self.entity.width - 12
                 -- gStateStack:push(FadeInState({
                 --     r = 0, g = 0, b = 0,

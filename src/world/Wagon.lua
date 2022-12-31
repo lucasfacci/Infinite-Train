@@ -1,6 +1,8 @@
 Wagon = Class{}
 
-function Wagon:init(player, boss)
+function Wagon:init(player, boss, level)
+    self.level = level
+
     self.width = MAP_WIDTH
     self.height = MAP_HEIGHT
 
@@ -208,7 +210,14 @@ function Wagon:generatePassengersWagonObjects()
 end
 
 function Wagon:update(dt)
-    self.player:update(dt)
+    if self.player.health <= 0 then
+        self.player.dead = true
+        gSounds['death']:play()
+        gStateStack:pop()
+        gStateStack:push(GameOverState(self.level))
+    elseif not self.player.dead then
+        self.player:update(dt)
+    end
 
     if self.boss.health <= 0 then
         self.boss.dead = true
@@ -422,7 +431,7 @@ function Wagon:render()
         end
     end, 'replace', 1, true)
 
-    if self.player then
+    if not self.player.dead then
         self.player:render()
     end
 

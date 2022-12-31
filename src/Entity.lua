@@ -18,7 +18,7 @@ function Entity:init(def)
 
     self.health = def.health
     
-    self.luck = math.random(1)
+    self.luck = math.random(8)
 
     self.dead = false
 

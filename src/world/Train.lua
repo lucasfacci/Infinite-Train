@@ -6,7 +6,7 @@ function Train:init(player, boss, level)
 
     self.level = level
     
-    self.currentWagon = Wagon(self.player, self.boss)
+    self.currentWagon = Wagon(self.player, self.boss, self.level)
 end
 
 function Train:update(dt)

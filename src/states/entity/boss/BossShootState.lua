@@ -1,15 +1,20 @@
 BossShootState = Class{__includes = BaseState}
 
-function BossShootState:init(boss)
-    self.entity = boss
+function BossShootState:init(boss, player)
+    self.boss = boss
+    self.player = player
 
-    self.entity.direction = 'right'
-
-    self.entity:changeAnimation('shoot-right')
+    if self.player.x < self.boss.x then
+        self.boss.direction = 'left'
+    else
+        self.boss.direction = 'right'
+    end
+    
+    self.boss:changeAnimation('shoot-' .. self.boss.direction)
 
     -- render offset for spaced character sprite
-    self.entity.offsetX = 6
-    self.entity.offsetY = 0
+    self.boss.offsetX = 6
+    self.boss.offsetY = 0
 
     -- used for AI waiting
     self.waitDuration = 0
@@ -25,13 +30,13 @@ function BossShootState:processAI(params, dt)
         self.waitTimer = self.waitTimer + dt
         
         if self.waitTimer > self.waitDuration then
-            self.entity:changeState('walk')
+            self.boss:changeState('walk')
         end
     end
 end
 
 function BossShootState:render()
-    local anim = self.entity.currentAnimation
+    local anim = self.boss.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-        math.floor(self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY))
+        math.floor(self.boss.x - self.boss.offsetX), math.floor(self.boss.y - self.boss.offsetY))
 end

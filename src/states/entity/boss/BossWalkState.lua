@@ -1,6 +1,7 @@
 BossWalkState = Class{__includes = EntityWalkState}
 
-function BossWalkState:init(boss)
+function BossWalkState:init(boss, train)
+    self.train = train
     self.entity = boss
     self.entity:changeAnimation('walk-' .. self.entity.direction)
 
@@ -26,17 +27,17 @@ function BossWalkState:processAI(params, dt)
     if self.moveDuration == 0 or self.bumped then
         
         -- set an initial move duration and direction
-        self.moveDuration = math.random(2)
+        self.moveDuration = 1
         self.entity.direction = directions[math.random(#directions)]
         self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
     elseif self.movementTimer > self.moveDuration then
         self.movementTimer = 0
 
         -- chance to shoot
-        if math.random(2) == 1 then
+        if math.random(10) <= self.train.level then
             self.entity:changeState('shoot')
         else
-            self.moveDuration = math.random(2)
+            self.moveDuration = 1
             self.entity.direction = directions[math.random(#directions)]
             self.entity:changeAnimation('walk-' .. tostring(self.entity.direction))
         end
@@ -50,8 +51,8 @@ function BossWalkState:render()
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
         math.floor(self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY))
 
-    -- DEBUG
-    love.graphics.setColor(255, 0, 255, 255)
-    love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
-    love.graphics.setColor(255, 255, 255, 255)
+    -- -- DEBUG
+    -- love.graphics.setColor(255, 0, 255, 255)
+    -- love.graphics.rectangle('line', self.entity.x, self.entity.y, self.entity.width, self.entity.height)
+    -- love.graphics.setColor(255, 255, 255, 255)
 end
