@@ -91,13 +91,13 @@ function Entity:collides(target)
 end
 
 function Entity:fire(r, g, b, target)
+    gSounds['shoot']:play()
     table.insert(self.projectiles, Projectile(self, target, r, g, b))
 end
 
 function Entity:heal(healing)
-    self.health = self.health + healing
-    if self.health > 10 then
-        self.health = 10
+    if self.health < 10 then
+        self.health = self.health + healing
     end
 end
 

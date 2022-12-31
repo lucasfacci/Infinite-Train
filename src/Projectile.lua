@@ -64,6 +64,7 @@ function Projectile:update(dt)
     self.hitbox.y = self.y
 
     if self.target:collides(self.hitbox) and not self.target.dead then
+        gSounds['damage']:play()
         self.hit = true
         self.target:damage(1)
     end

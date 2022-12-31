@@ -29,7 +29,7 @@ function GameObject:init(def, x, y)
         self.entityNameAndSide[k] = {side = nil}
     end
 
-    self.onCollide = function(entity) end
+    self.onCollide = function() end
 end
 
 function GameObject:render()

@@ -212,14 +212,15 @@ function Wagon:update(dt)
 
     if self.boss.health <= 0 then
         self.boss.dead = true
+        gSounds['death']:play()
         if self.boss.luck == 1 then
             local heart = GameObject(GAME_OBJECT_DEFS['heart'], self.boss.x, self.boss.y)
-
-            table.insert(self.objects, heart)
 
             heart.onCollide = function(this, entity)
                 entity:heal(1)
             end
+
+            table.insert(self.objects, heart)
             self.boss.luck = 0
         end
     elseif not self.boss.dead then
@@ -234,6 +235,7 @@ function Wagon:update(dt)
         if self.player:collides(object) then
             object:onCollide(self.player)
             if object.type == 'heart' then
+                gSounds['heal']:play()
                 table.remove(self.objects, k)
             end
         end

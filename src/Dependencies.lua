@@ -68,3 +68,10 @@ gFonts = {
     ['londrina-small'] = love.graphics.newFont('fonts/LondrinaSolid-Regular.ttf', 16),
     ['londrina-medium'] = love.graphics.newFont('fonts/LondrinaSolid-Regular.ttf', 32),
 }
+
+gSounds = {
+    ['shoot'] = love.audio.newSource('sounds/shoot.wav', 'static'),
+    ['damage'] = love.audio.newSource('sounds/damage.wav', 'static'),
+    ['heal'] = love.audio.newSource('sounds/heal.wav', 'static'),
+    ['death'] = love.audio.newSource('sounds/death.wav', 'static'),
+}
