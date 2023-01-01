@@ -24,12 +24,15 @@ function Wagon:init(player, boss, level)
     self.objects = {}
     self:generatePassengersWagonObjects()
 
+    -- projectiles in the wagon
+    self.projectiles = {}
+
     Event.on('player-fire', function()
-        self.player:fire(190, 190, 95, self.boss)
+        self.player:fire(self.projectiles, 190, 190, 95, self.boss)
     end)
 
     Event.on('boss-fire', function()
-        self.boss:fire(190, 190, 95, self.player, self.level)
+        self.boss:fire(self.projectiles, 190, 190, 95, self.player, self.level)
     end)
 end
 
@@ -240,6 +243,46 @@ function Wagon:update(dt)
         self.boss:update(dt)
     end
 
+    for k, projectile in pairs(self.projectiles) do
+        projectile:update(dt)
+
+        ----
+        -- PROJECTILE COLLISION DETECTION
+        ----
+        -- if collides with an entity
+        if projectile.hit then
+            table.remove(self.projectiles, k)
+        -- if collides the left wall
+        elseif projectile.x < MAP_RENDER_OFFSET_X + 8 then
+            -- if collides the left door
+            if projectile.y >= (6 * TILE_SIZE) and projectile.y <= (10 * TILE_SIZE) then
+                if projectile.x <= 12 then
+                    table.remove(self.projectiles, k)
+                end
+            -- if collides the left wall
+            else
+                table.remove(self.projectiles, k)
+            end
+        -- if collides the top wall
+        elseif projectile.y < MAP_RENDER_OFFSET_Y + 8 then
+            table.remove(self.projectiles, k)
+        -- if collides the right wall
+        elseif projectile.x > VIRTUAL_WIDTH - MAP_RENDER_OFFSET_X - 8 then
+            -- if collides the right door
+            if projectile.y >= (6 * TILE_SIZE) and projectile.y <= (10 * TILE_SIZE) then
+                if projectile.x >= VIRTUAL_WIDTH - projectile.width - 12 then
+                    table.remove(self.projectiles, k)
+                end
+            -- if collides the right wall
+            else
+                table.remove(self.projectiles, k)
+            end
+        -- if collides the bottom wall
+        elseif projectile.y > VIRTUAL_HEIGHT - MAP_RENDER_OFFSET_Y then
+            table.remove(self.projectiles, k)
+        end
+    end
+
     self.backgroundScroll = (self.backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
 
     for k, object in pairs(self.objects) do
@@ -423,6 +466,10 @@ function Wagon:render()
 
     for k, object in pairs(self.objects) do
         object:render()
+    end
+
+    for k, projectile in pairs(self.projectiles) do
+        projectile:render()
     end
 
     love.graphics.stencil(function()
