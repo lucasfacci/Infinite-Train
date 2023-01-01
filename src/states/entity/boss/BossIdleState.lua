@@ -1,11 +1,11 @@
 BossIdleState = Class{__includes = EntityIdleState}
 
 function BossIdleState:init(boss)
-    self.entity = boss
-    self.entity:changeAnimation('idle-' .. self.entity.direction)
+    self.boss = boss
+    self.boss:changeAnimation('idle-' .. self.boss.direction)
 
-    self.entity.offsetX = 0
-    self.entity.offsetY = 0
+    self.boss.offsetX = 0
+    self.boss.offsetY = 0
 
     -- used for AI waiting
     self.waitDuration = 0
@@ -19,13 +19,13 @@ function BossIdleState:processAI(params, dt)
         self.waitTimer = self.waitTimer + dt
         
         if self.waitTimer > self.waitDuration then
-            self.entity:changeState('walk')
+            self.boss:changeState('walk')
         end
     end
 end
 
 function BossIdleState:render()
-    local anim = self.entity.currentAnimation
+    local anim = self.boss.currentAnimation
     love.graphics.draw(gTextures[anim.texture], gFrames[anim.texture][anim:getCurrentFrame()],
-        math.floor(self.entity.x - self.entity.offsetX), math.floor(self.entity.y - self.entity.offsetY))
+        math.floor(self.boss.x - self.boss.offsetX), math.floor(self.boss.y - self.boss.offsetY))
 end

@@ -10,7 +10,7 @@ function GameOverState:update(dt)
             r = 0, g = 0, b = 0
         }, {}, 1,
         function()
-            gStateStack:push(StartState())
+            gStateStack:push(PlayState({}))
             gStateStack:push(FadeOutState({
                 r = 0, g = 0, b = 0
             }, {}, 1,
@@ -30,6 +30,7 @@ function GameOverState:render()
     
     love.graphics.setFont(gFonts['rye-small'])
     love.graphics.printf('Level Reached: ' .. self.level, 0, VIRTUAL_HEIGHT / 2  - 12, VIRTUAL_WIDTH, 'center')
-    love.graphics.printf('Press Enter', 0, VIRTUAL_HEIGHT / 2 + 32, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('Press Enter To Play Again', 0, VIRTUAL_HEIGHT / 2 + 32, VIRTUAL_WIDTH, 'center')
+    love.graphics.printf('Press ESC To Exit', 0, VIRTUAL_HEIGHT / 2 + 52, VIRTUAL_WIDTH, 'center')
     love.graphics.setColor(1, 1, 1, 1)
 end

@@ -57,9 +57,39 @@ function Entity:update(dt)
     for k, projectile in pairs(self.projectiles) do
         projectile:update(dt)
 
-        if projectile.hit or projectile.x < 0 or
-            projectile.y < 0 or projectile.x > VIRTUAL_WIDTH or
-            projectile.y > VIRTUAL_HEIGHT then
+        ----
+        -- PROJECTILE COLLISION DETECTION
+        ----
+        -- if collides with an entity
+        if projectile.hit then
+            table.remove(self.projectiles, k)
+        -- if collides the left wall
+        elseif projectile.x < MAP_RENDER_OFFSET_X + 8 then
+            -- if collides the left door
+            if projectile.y >= (6 * TILE_SIZE) and projectile.y <= (10 * TILE_SIZE) then
+                if projectile.x <= 12 then
+                    table.remove(self.projectiles, k)
+                end
+            -- if collides the left wall
+            else
+                table.remove(self.projectiles, k)
+            end
+        -- if collides the top wall
+        elseif projectile.y < MAP_RENDER_OFFSET_Y + 8 then
+            table.remove(self.projectiles, k)
+        -- if collides the right wall
+        elseif projectile.x > VIRTUAL_WIDTH - MAP_RENDER_OFFSET_X - 8 then
+            -- if collides the right door
+            if projectile.y >= (6 * TILE_SIZE) and projectile.y <= (10 * TILE_SIZE) then
+                if projectile.x >= VIRTUAL_WIDTH - projectile.width - 12 then
+                    table.remove(self.projectiles, k)
+                end
+            -- if collides the right wall
+            else
+                table.remove(self.projectiles, k)
+            end
+        -- if collides the bottom wall
+        elseif projectile.y > VIRTUAL_HEIGHT - MAP_RENDER_OFFSET_Y then
             table.remove(self.projectiles, k)
         end
     end
@@ -90,9 +120,9 @@ function Entity:collides(target)
                 self.y + self.height < target.y or self.y > target.y + target.height)
 end
 
-function Entity:fire(r, g, b, target)
+function Entity:fire(r, g, b, target, level)
     gSounds['shoot']:play()
-    table.insert(self.projectiles, Projectile(self, target, r, g, b))
+    table.insert(self.projectiles, Projectile(self, target, r, g, b, level))
 end
 
 function Entity:heal(healing)

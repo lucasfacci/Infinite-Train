@@ -1,7 +1,6 @@
 BossWalkState = Class{__includes = EntityWalkState}
 
-function BossWalkState:init(boss, train)
-    self.train = train
+function BossWalkState:init(boss)
     self.entity = boss
     self.entity:changeAnimation('walk-' .. self.entity.direction)
 
@@ -34,7 +33,7 @@ function BossWalkState:processAI(params, dt)
         self.movementTimer = 0
 
         -- chance to shoot
-        if math.random(10) <= self.train.level then
+        if math.random(2) <= 1 then
             self.entity:changeState('shoot')
         else
             self.moveDuration = 1

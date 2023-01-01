@@ -1,12 +1,14 @@
 Projectile = Class{}
 
-function Projectile:init(entity, target, r, g, b)
+function Projectile:init(entity, target, r, g, b, velocity)
     self.entity = entity
     self.target = target
 
     self.r = r
     self.g = g
     self.b = b
+
+    self.velocity = velocity
 
     self.direction = self.entity.direction
 
@@ -51,18 +53,34 @@ function Projectile:init(entity, target, r, g, b)
 end
 
 function Projectile:update(dt)
-    if self.direction == 'left' then
-        self.dx = -100
-        self.dy = 0
-    elseif self.direction == 'right' then
-        self.dx = 100
-        self.dy = 0
-    elseif self.direction == 'up' then
-        self.dx = 0
-        self.dy = -100
+    if self.velocity then
+        if self.direction == 'left' then
+            self.dx = -100 - self.velocity * 5
+            self.dy = 0
+        elseif self.direction == 'right' then
+            self.dx = 100 + self.velocity * 5
+            self.dy = 0
+        elseif self.direction == 'up' then
+            self.dx = 0
+            self.dy = -100 - self.velocity * 5
+        else
+            self.dx = 0
+            self.dy = 100 + self.velocity * 5
+        end
     else
-        self.dx = 0
-        self.dy = 100
+        if self.direction == 'left' then
+            self.dx = -100
+            self.dy = 0
+        elseif self.direction == 'right' then
+            self.dx = 100
+            self.dy = 0
+        elseif self.direction == 'up' then
+            self.dx = 0
+            self.dy = -100
+        else
+            self.dx = 0
+            self.dy = 100
+        end
     end
 
     self.x = self.x + self.dx * dt

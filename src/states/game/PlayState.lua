@@ -1,18 +1,18 @@
 PlayState = Class{__includes = BaseState}
 
 function PlayState:init(params)
-    self.level = params.level
-
+    self.level = params.level or 1
+    
     self.player = Entity {
         type = ENTITY_DEFS['player'].type,
         
-        direction = params.direction or 'down',
+        direction = params.direction or 'left',
 
         animations = ENTITY_DEFS['player'].animations,
         walkSpeed = ENTITY_DEFS['player'].walkSpeed,
         health = params.health or ENTITY_DEFS['player'].health,
 
-        x = params.x or VIRTUAL_WIDTH / 2 - ENTITY_DEFS['player'].height / 2,
+        x = params.x or VIRTUAL_WIDTH - 31,
         y = params.y or VIRTUAL_HEIGHT / 2 + MAP_RENDER_OFFSET_Y - ENTITY_DEFS['player'].height / 2,
 
         width = ENTITY_DEFS['player'].width,
@@ -44,7 +44,7 @@ function PlayState:init(params)
     }
 
     self.boss.stateMachine = StateMachine {
-        ['walk'] = function() return BossWalkState(self.boss, self.train) end,
+        ['walk'] = function() return BossWalkState(self.boss) end,
         ['idle'] = function() return BossIdleState(self.boss) end,
         ['shoot'] = function() return BossShootState(self.boss, self.player) end
     }

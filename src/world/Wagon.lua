@@ -29,7 +29,7 @@ function Wagon:init(player, boss, level)
     end)
 
     Event.on('boss-fire', function()
-        self.boss:fire(190, 190, 95, self.player)
+        self.boss:fire(190, 190, 95, self.player, self.level)
     end)
 end
 
@@ -220,8 +220,11 @@ function Wagon:update(dt)
     end
 
     if self.boss.health <= 0 then
-        self.boss.dead = true
-        gSounds['death']:play()
+        if not self.boss.dead then
+            gSounds['death']:play()
+            self.boss.dead = true
+        end
+
         if self.boss.luck == 1 then
             local heart = GameObject(GAME_OBJECT_DEFS['heart'], self.boss.x, self.boss.y)
 
