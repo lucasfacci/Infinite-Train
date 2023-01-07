@@ -1,1 +1,1 @@
-# Infinite-Train
+# Infinite Train
