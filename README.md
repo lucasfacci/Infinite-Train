@@ -39,8 +39,4 @@ You will notice an increase in the speed of the cowboy's bullets as you progress
 
 ## License
 
-Infinite Train is licensed under the MIT License. Please refer to the LICENSE file for more information. 
-
-## Feedback and Support
-
-We value your feedback and suggestions for improving Infinite Train. If you encounter any bug while playing the game or if you have ideas for new features, please feel free to create an issue or submit a pull request. It will be reviewed and answered as soon as possible.
+Infinite Train is licensed under the MIT License. Please refer to the LICENSE file for more information.
