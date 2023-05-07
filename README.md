@@ -1,6 +1,6 @@
 # Infinite Train
 
-Infinite Train is a Shoot 'em up game situated inside an infinite train that depicts a shootout between cowboys and a train's passenger in the old west.
+Infinite Train is a shoot 'em up game situated inside an infinite train that depicts a shootout between cowboys and a train's passenger in the old west.
 
 ![Alt text](./graphics/promotional.png)
 
